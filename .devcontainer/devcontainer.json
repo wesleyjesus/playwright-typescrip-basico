@@ -1,0 +1,39 @@
+{
+	"name": "TEST-UI-Playwright",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "playwright",
+	"workspaceFolder": "/home/pwuser/app",
+	"remoteUser": "pwuser",
+	"privileged": true,
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode-remote.remote-containers",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"vscjava.vscode-java-debug",
+				"ms-playwright.playwright",
+				"pmneo.tsimporter",
+				"ms-vscode.vscode-typescript-next",
+				"dbaeumer.vscode-eslint",
+				"ms-azuretools.vscode-cosmosdb",
+				"christian-kohler.npm-intellisense",
+				"ms-azuretools.vscode-docker",
+				"esbenp.prettier-vscode",
+				"vscode-icons-team.vscode-icons",
+				"mutantdino.resourcemonitor",
+				"formulahendry.code-runner",
+				"ms-vscode.live-server",
+				"GitHub.copilot",
+				"GitHub.copilot-chat"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {},
+		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+		"ghcr.io/devcontainers-extra/features/zsh-plugins:0": {}
+	},
+	"forwardPorts": [3000, 9323],
+	"updateRemoteUserUID": true,
+	"postCreateCommand": "git config --global --add safe.directory /home/pwuser/app && yarn install --frozen-lockfile || yarn install && npx playwright install --with-deps"
+}

@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  playwright:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        # Passa UID/GID do host para a build (lê .devcontainer/.env ou variáveis de ambiente)
+        USER_UID: ${LOCAL_UID}
+        USER_GID: ${LOCAL_GID}
+    image: unico-playwright-custom
+    container_name: playwright-devcontainer-docker
+    ipc: host
+    env_file:
+      - .env
+    network_mode: host
+    environment:
+      - PLAYWRIGHT_HTML_HOST=localhost
+    working_dir: /home/pwuser/app
+    ports:
+      - "3000:3000"
+      - "9323:9323"
+    volumes:
+      - ..:/home/pwuser/app:cached
+      - /home/pwuser/app/node_modules
+    extra_hosts:
+      - "localhost:host-gateway"
+    entrypoint: ["/usr/local/bin/devcontainer-entrypoint.sh"]
+    command: >
+      /bin/sh -c "npx -y playwright@1.55.0 run-server --port 3000 --host 0.0.0.0"
+    init: true
+    tty: true
+    stdin_open: true

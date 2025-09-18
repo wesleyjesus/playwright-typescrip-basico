@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+
+# Playwright test output
+test-results/
+playwright-report/
+*.log
+
+# VSCode settings
+.vscode/
+
+# Environment files
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+coverage/
+
+# Playwright downloads (browsers, drivers)
+.playwright/
+
+# Optional: ignore package-lock or yarn.lock if not needed
+# package-lock.json
+# yarn.lock
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Playwright Codegen artifacts
+auth.json
+*.storage.json
+*.har
+/downloads/
+/trace.zip
+
+# Allure Reports
+allure-results/
+allure-report/
+.allure/

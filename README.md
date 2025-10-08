@@ -1,61 +1,184 @@
-# Playwright Tests - Devcontainer
+# Playwright TypeScript - Configuração Completa 🎭
 
-Este repositório contém a configuração inicial para executar testes E2E com Playwright usando um DevContainer/Docker.
+Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwright, incluindo:
 
-## Requisitos
+- ✅ **DevContainer** configurado com permissões automáticas
+- ✅ **Oh My Zsh** com tema e plugins produtivos
+- ✅ **Allure Report** para relatórios visuais detalhados
+- ✅ **Aliases personalizados** para agilizar o desenvolvimento
+- ✅ **Dual package manager** (npm/yarn) support
 
-- Docker
-- VS Code com Remote - Containers (opcional)
+## � Gerenciador de Pacotes
 
-## Como construir a imagem localmente
-
-```bash
-# Na raiz do projeto
-docker-compose -f .devcontainer/docker-compose.yml build
-```
-
-## Rodar o servidor Playwright (dentro do container)
+Este projeto usa **Yarn** como gerenciador de pacotes principal. Todos os comandos de exemplo utilizam Yarn.
 
 ```bash
-# Usando docker-compose (recomendado)
-docker-compose -f .devcontainer/docker-compose.yml up --remove-orphans
-
-# Alternativa: rodar a imagem diretamente
-docker build -t unico-playwright-custom -f .devcontainer/Dockerfile .
-
-docker run --rm --init --ipc=host -p 3000:3000 --user pwuser --add-host hostmachine:host-gateway unico-playwright-custom \
-  sh -c "npx -y playwright@1.55.0 run-server --port 3000 --host 0.0.0.0"
-```
-
-Se você estiver acessando serviços no host a partir do container, configure o host com `--add-host hostmachine:host-gateway` e use `hostmachine` nas URLs dos testes.
-
-## Execução dos testes (locais)
-
-Dentro do container (ou em um ambiente com Playwright instalado):
-
-```bash
-# Instalar dependências (uma vez)
+# Instalar dependências
 yarn install
 
-# Instalar navegadores do Playwright (se necessário)
-npx playwright install --with-deps
+# Adicionar nova dependência
+yarn add <pacote>
 
-# Executar testes headless
-yarn test:e2e
+# Adicionar dependência de desenvolvimento
+yarn add -D <pacote>
 
-# Executar tests com GUI
-yarn test:headed
+# Atualizar pacotes
+yarn upgrade
+
+# Atualizar Playwright para a versão mais recente
+yarn upgrade @playwright/test@latest
+npx playwright install
+```
+
+> **Nota**: O projeto possui [`yarn.lock`](yarn.lock). Não use `npm install` para evitar conflitos entre gerenciadores.
+
+## �🚀 Início Rápido
+
+### 1. Abrir no DevContainer
+
+```bash
+# No VS Code, use Command Palette:
+# > Dev Containers: Reopen in Container
+```
+
+### 2. Instalar Dependências
+
+```bash
+# Instalar todas as dependências do projeto
+yarn install
+
+# Instalar navegadores do Playwright
+npx playwright install
+```
+
+### 3. Verificar Configuração
+
+```bash
+# Executar teste de verificação do ambiente:
+./test-zsh-setup.sh
+
+# Mudar para zsh (se necessário):
+zsh
+
+# Testar aliases:
+pwtest  # Executa testes Playwright
+pclean  # Limpa relatórios Allure
+pallure # Executa testes e abre Allure
+```
+
+## 🎯 Scripts Disponíveis
+
+### Testes Playwright
+
+```bash
+yarn test:e2e          # Executa todos os testes
+yarn test:headed       # Executa com interface gráfica
+yarn test:debug        # Modo debug com PWDEBUG
+yarn codegen           # Gera código de teste automaticamente
+```
+
+### Allure Reports
+
+```bash
+yarn allure:serve      # Executa testes e abre relatório
+yarn allure:clean      # Limpa resultados anteriores
+yarn allure:generate   # Gera relatório sem abrir
+yarn allure:open       # Abre relatório existente
+yarn allure:stop       # Para servidor Allure
+yarn allure:status     # Verifica status do servidor
+yarn test:allure       # Executa testes + abre relatório
+yarn test:allure-clean # Limpa + executa testes + abre relatório
+```
+
+### Aliases Úteis (Oh My Zsh)
+
+```bash
+# Playwright
+pw                      # npx playwright
+pwtest                  # npx playwright test
+pwcodegen              # npx playwright codegen
+pwshow                 # npx playwright show-report
+
+# Gestão de projetos
+ptest                  # yarn test:e2e
+pcodegen               # yarn codegen
+pallure                # yarn allure:serve
+pclean                 # yarn allure:clean
+
+# Allure direto
+allure-serve           # yarn allure:serve
+allure-clean           # yarn allure:clean
+allure-generate        # yarn allure:generate
+allure-open            # yarn allure:open
+```
+
+## 🔧 Resolução de Problemas
+
+### Problema de Permissões EACCES
+
+Se encontrar erros de permissão ao salvar arquivos:
+
+**No host (fora do container):**
+
+```bash
+# Verificar atributos dos arquivos
+lsattr .devcontainer/
+
+# Corrigir permissões se necessário
+chmod -R a+rwX .devcontainer/
+```
+
+**No container:**
+
+```bash
+# Corrigir permissões do Allure
+sudo chown -R $(id -u):$(id -g) allure-results allure-report
+
+# Ou use o comando de limpeza que inclui sudo:
+yarn allure:clean
+```
+
+### Oh My Zsh não carregado
+
+```bash
+# Verificar se está usando zsh
+echo $SHELL
+
+# Mudar para zsh se necessário
+zsh
+
+# Recarregar configuração
+source ~/.zshrc
+
+# Verificar instalação
+./test-zsh-setup.sh
+```
+
+### Servidor Allure com problemas
+
+```bash
+# Verificar status
+yarn allure:status
+
+# Reiniciar servidor
+yarn allure:restart
+
+# Parar servidor manualmente
+yarn allure:stop
+
+# Verificar portas em uso
+./manage-allure.sh 4040 status
 ```
 
 ## 🎭 Playwright Codegen
 
 Este projeto inclui scripts para facilitar o uso do Playwright Codegen para gravação de testes.
 
-### Usando npm script
+### Usando Yarn
 
 ```bash
 # Abrir codegen com configurações padrão
-npm run codegen
+yarn codegen
 
 # Abrir codegen em uma URL específica
 npx playwright codegen https://exemplo.com.br
@@ -169,9 +292,21 @@ docker-compose -f .devcontainer/docker-compose.yml up --build
 
 Depois abra o projeto no VS Code com Remote - Containers e verifique se agora é possível salvar em `.devcontainer` sem erro de permissão.
 
-## Configuração do npm para instalações globais
+## Configuração de Gerenciadores de Pacotes
 
-O Dev Container está configurado para permitir instalações globais do npm sem sudo. As configurações incluem:
+### Yarn (Principal)
+
+Este projeto usa **Yarn** como gerenciador principal. Todos os scripts são otimizados para Yarn:
+
+```bash
+yarn install           # Instalar dependências
+yarn test:e2e          # Executar testes
+yarn allure:serve      # Servir relatório Allure
+```
+
+### npm (Disponível para instalações globais)
+
+O Dev Container também está configurado para permitir instalações globais do npm sem sudo:
 
 - `NPM_CONFIG_PREFIX=/home/pwuser/.npm-global` - diretório para pacotes globais
 - PATH atualizado para incluir `/home/pwuser/.npm-global/bin`
@@ -185,6 +320,8 @@ npm install -g npm@latest
 ```
 
 Sem receber erros EACCES (permission denied).
+
+> ⚠️ **Importante**: Use Yarn para dependências do projeto e npm apenas para instalações globais.
 
 ## Shell padrão
 
@@ -222,19 +359,22 @@ O Allure Report foi integrado com os seguintes componentes:
 
 ```bash
 # Executar testes normalmente (gera relatórios HTML e Allure)
-npm run test:e2e
+yarn test:e2e
 
 # Executar testes com relatório Allure apenas
-npm run test:allure
+yarn test:allure
+
+# Limpar + executar testes + abrir relatório
+yarn test:allure-clean
 
 # Gerar relatório Allure a partir dos resultados
-npm run allure:generate
+yarn allure:generate
 
 # Servir relatório Allure no navegador
-npm run allure:serve
+yarn allure:serve
 
 # Abrir Playwright Codegen
-npm run codegen
+yarn codegen
 ```
 
 ### Playwright Codegen
@@ -245,8 +385,8 @@ O projeto inclui um script automatizado para abrir o **Playwright Codegen**:
 # Script direto
 ./codegen.sh
 
-# Via npm
-npm run codegen
+# Via Yarn
+yarn codegen
 ```
 
 O codegen permite:
@@ -315,33 +455,40 @@ Os relatórios são organizados da seguinte forma:
 O projeto está configurado para funcionar em ambiente headless (sem interface gráfica). Para usar o Allure:
 
 1. **Configurar ambiente** (primeira vez):
+
    ```bash
    ./setup-allure.sh
    ```
 
 2. **Executar testes e gerar dados**:
+
    ```bash
-   npm run test:e2e
+   yarn test:e2e
    ```
 
 3. **Gerenciar servidor Allure**:
+
    ```bash
-   npm run allure:serve    # Iniciar servidor
-   npm run allure:status   # Verificar status
-   npm run allure:restart  # Reiniciar servidor
-   npm run allure:stop     # Parar servidor
+   yarn allure:serve      # Iniciar servidor
+   yarn allure:status     # Verificar status
+   yarn allure:restart    # Reiniciar servidor
+   yarn allure:stop       # Parar servidor
    ```
 
 4. **Acessar no navegador**:
+
    - O relatório estará disponível em `http://localhost:4040`
    - Use o Simple Browser do VS Code ou acesse externamente
 
 5. **Workflow completo**:
+
    ```bash
-   npm run test:allure     # Testa + inicia servidor
+   yarn test:allure       # Testa + inicia servidor
+   yarn test:allure-clean # Limpa + testa + inicia servidor
    ```
 
 6. **Gerenciamento avançado**:
+
    ```bash
    ./manage-allure.sh 4041 serve    # Porta personalizada
    ./manage-allure.sh 4040 status   # Verificar status
@@ -364,9 +511,10 @@ O projeto está configurado para funcionar em ambiente headless (sem interface g
 ### Workflow Completo
 
 1. **Desenvolver testes** com anotações Allure
-2. **Executar testes**: `npm run test:allure`
-3. **Gerar relatório**: `npm run allure:generate`
-4. **Visualizar resultados**: `npm run allure:serve`
+2. **Executar testes**: `yarn test:allure`
+3. **Gerar relatório**: `yarn allure:generate`
+4. **Visualizar resultados**: `yarn allure:serve`
+5. **Workflow limpo**: `yarn test:allure-clean` (limpa + testa + visualiza)
 
 O relatório Allure oferece:
 
@@ -380,34 +528,44 @@ O relatório Allure oferece:
 ### Troubleshooting Allure
 
 **Problema: "Address already in use"**
+
 ```bash
 # Solução: parar o servidor existente
-npm run allure:stop
-npm run allure:serve
+yarn allure:stop
+yarn allure:serve
 ```
 
 **Problema: "Could not serve the report"**
+
 ```bash
 # Verificar se há dados de teste
 ls -la allure-results/
 
 # Executar testes primeiro
-npm run test:e2e
-npm run allure:serve
+yarn test:e2e
+yarn allure:serve
 ```
 
 **Problema: Java headless não funciona**
+
 ```bash
 # Reconfigurar ambiente
 ./setup-allure.sh
-npm run allure:restart
+yarn allure:restart
+```
+
+**Problema: Permissões ao limpar resultados**
+
+```bash
+# Usar comando de limpeza com sudo
+yarn allure:clean
+
+# Ou corrigir permissões manualmente
+sudo chown -R $(id -u):$(id -g) allure-results allure-report
 ```
 
 **Verificar logs do servidor**
+
 ```bash
 tail -f allure-server.log
-```
-
-```
-
 ```

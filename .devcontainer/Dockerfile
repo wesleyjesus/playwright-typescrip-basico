@@ -1,5 +1,5 @@
 # Use a imagem oficial do Playwright como base
-FROM mcr.microsoft.com/playwright:v1.55.0-noble
+FROM mcr.microsoft.com/playwright:v1.56.0-noble
 USER root
 # Ajuste de UID/GID para evitar problemas de permissão com bind mounts do host
 ARG USER_UID=1000
@@ -11,14 +11,39 @@ RUN groupmod -g ${USER_GID} pwuser || true \
  && mkdir -p /home/pwuser/app /home/pwuser/app/node_modules /home/pwuser/app/.devcontainer \
  && chown -R ${USER_UID}:${USER_GID} /home/pwuser
 
-# Instalar zsh e configurar como shell padrão
-RUN apt-get update && apt-get install -y zsh curl git \
+# Instalar common utilities and development tools
+RUN apt-get update && apt-get install -y \
+    zsh \
+    curl \
+    git \
+    sudo \
+    jq \
+    wget \
+    unzip \
+    htop \
+    vim \
+    nano \
+    tree \
+    less \
+    man-db \
+    manpages \
+    build-essential \
  && chsh -s /bin/zsh pwuser \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instalar Oh My Zsh para o usuário pwuser
-RUN su - pwuser -c "sh -c \"\$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" \"\" --unattended" \
- && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh /home/pwuser/.zshrc || true
+# Add pwuser to sudo group for development convenience
+RUN usermod -aG sudo pwuser \
+ && echo "pwuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/pwuser
+
+# Instalar Oh My Zsh manualmente para evitar problemas de SSL/certificados
+RUN git config --global http.sslVerify false \
+ && git clone https://github.com/ohmyzsh/ohmyzsh.git /home/pwuser/.oh-my-zsh \
+ && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh
+
+# Instalar plugins do zsh
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /home/pwuser/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
+ && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/pwuser/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
+ && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh/custom
 
 RUN npm install -g yarn@latest
 
@@ -30,18 +55,64 @@ RUN apt-get update && apt-get install -y openjdk-17-jre-headless xvfb \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Allure CLI globally
-RUN npm install -g allure-commandline
+# Install Allure CLI globally usando Yarn
+RUN yarn global add allure-commandline
 
 # Configura prefix para instalações globais do npm no diretório do usuário, evitando a necessidade de sudo
 ENV NPM_CONFIG_PREFIX=/home/pwuser/.npm-global
 ENV PATH=/home/pwuser/.npm-global/bin:$PATH
 RUN mkdir -p /home/pwuser/.npm-global \
- && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.npm-global \
+ && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.npm-global
+
+# Criar arquivo .zshrc completo com Oh My Zsh
+RUN echo '# Path to your oh-my-zsh installation.' > /home/pwuser/.zshrc \
+ && echo 'export ZSH="$HOME/.oh-my-zsh"' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Set name of the theme to load' >> /home/pwuser/.zshrc \
+ && echo 'ZSH_THEME="agnoster"' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Which plugins would you like to load?' >> /home/pwuser/.zshrc \
+ && echo 'plugins=(' >> /home/pwuser/.zshrc \
+ && echo '    git' >> /home/pwuser/.zshrc \
+ && echo '    docker' >> /home/pwuser/.zshrc \
+ && echo '    docker-compose' >> /home/pwuser/.zshrc \
+ && echo '    npm' >> /home/pwuser/.zshrc \
+ && echo '    yarn' >> /home/pwuser/.zshrc \
+ && echo '    zsh-autosuggestions' >> /home/pwuser/.zshrc \
+ && echo '    zsh-syntax-highlighting' >> /home/pwuser/.zshrc \
+ && echo ')' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Load Oh My Zsh' >> /home/pwuser/.zshrc \
+ && echo 'source $ZSH/oh-my-zsh.sh' >> /home/pwuser/.zshrc \
  && echo '' >> /home/pwuser/.zshrc \
  && echo '# NPM global packages configuration' >> /home/pwuser/.zshrc \
  && echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> /home/pwuser/.zshrc \
- && chown ${USER_UID}:${USER_GID} /home/pwuser/.zshrc || true
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Custom aliases' >> /home/pwuser/.zshrc \
+ && echo 'alias ll="ls -alF"' >> /home/pwuser/.zshrc \
+ && echo 'alias la="ls -A"' >> /home/pwuser/.zshrc \
+ && echo 'alias l="ls -CF"' >> /home/pwuser/.zshrc \
+ && echo 'alias ..="cd .."' >> /home/pwuser/.zshrc \
+ && echo 'alias ...="cd ../.."' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Playwright aliases' >> /home/pwuser/.zshrc \
+ && echo 'alias pw="npx playwright"' >> /home/pwuser/.zshrc \
+ && echo 'alias pwtest="npx playwright test"' >> /home/pwuser/.zshrc \
+ && echo 'alias pwcodegen="npx playwright codegen"' >> /home/pwuser/.zshrc \
+ && echo 'alias pwshow="npx playwright show-report"' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Package manager aliases' >> /home/pwuser/.zshrc \
+ && echo 'alias ptest="npm run test:e2e"' >> /home/pwuser/.zshrc \
+ && echo 'alias pcodegen="npm run codegen"' >> /home/pwuser/.zshrc \
+ && echo 'alias pallure="npm run allure:serve"' >> /home/pwuser/.zshrc \
+ && echo 'alias pclean="npm run allure:clean"' >> /home/pwuser/.zshrc \
+ && echo '' >> /home/pwuser/.zshrc \
+ && echo '# Allure aliases' >> /home/pwuser/.zshrc \
+ && echo 'alias allure-serve="npm run allure:serve"' >> /home/pwuser/.zshrc \
+ && echo 'alias allure-clean="npm run allure:clean"' >> /home/pwuser/.zshrc \
+ && echo 'alias allure-generate="npm run allure:generate"' >> /home/pwuser/.zshrc \
+ && echo 'alias allure-open="npm run allure:open"' >> /home/pwuser/.zshrc \
+ && chown ${USER_UID}:${USER_GID} /home/pwuser/.zshrc
 
 # Garantir que /home/pwuser e arquivos de configuração existam e tenham dono correto
 # Criamos .yarnrc vazio e garantimos ownership e permissões antes de qualquer instalação
@@ -63,23 +134,25 @@ ENV APP_DIR=/home/pwuser/app
 COPY .devcontainer/entrypoint.sh /usr/local/bin/devcontainer-entrypoint.sh
 RUN chmod +x /usr/local/bin/devcontainer-entrypoint.sh
 
-# Definimos ENTRYPOINT — quando o container iniciar como root (p.ex. via docker-compose),
-# o entrypoint poderá ajustar permissões dos bind mounts e então executar o comando como pwuser.
+
+# Definimos ENTRYPOINT — o entrypoint executa como root para ajustar permissões
 ENTRYPOINT ["/usr/local/bin/devcontainer-entrypoint.sh"]
 
-# Troca para o usuário padrão para camadas seguintes por segurança
-USER pwuser
+# NÃO mudamos para USER pwuser aqui. Mantemos root como usuário de runtime para
+# permitir que o entrypoint ajuste ownership/permissões dos bind mounts montados
+# pelo host. O entrypoint faz o drop para pwuser ao final.
 
 # Define o diretório de trabalho para a aplicação
+
 WORKDIR ${APP_DIR}
 
-# Copia arquivos de dependência do Yarn
-# Copia arquivos de dependência do Yarn
-# Copia arquivos de dependência (serão instalados no postCreateCommand)
-COPY --chown=pwuser:pwuser package.json yarn.lock* ./
+# Copia arquivos de dependência primeiro. Não forçamos chown aqui porque o
+# entrypoint fará ajustes em tempo de execução para acomodar bind mounts do host.
+COPY package.json yarn.lock* ./
 
-# Copia o restante do código com permissões corretas
-COPY --chown=pwuser:pwuser . .
+# Copia o restante do código. Mantemos owners como na imagem (root) e o
+# entrypoint cuidará do ajuste de ownership quando o container iniciar.
+COPY . .
 
 # Expõe a porta usada pelo run-server
 EXPOSE 3000

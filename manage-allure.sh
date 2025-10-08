@@ -35,22 +35,35 @@ check_allure() {
 
 get_pid_by_port() {
     local port=$1
-    lsof -ti:$port 2>/dev/null
+    # Usar ps e grep para encontrar processos do allure na porta específica
+    ps aux | grep "allure.*--port $port" | grep -v grep | awk '{print $2}' | head -1
 }
 
 stop_allure() {
     local port=$1
     echo "🛑 Parando servidor Allure na porta $port..."
     
-    local pid=$(get_pid_by_port $port)
-    if [ -n "$pid" ]; then
-        kill $pid 2>/dev/null
+    # Encontrar todos os processos relacionados ao allure na porta específica
+    local pids=$(ps aux | grep "allure.*--port $port" | grep -v grep | awk '{print $2}')
+    
+    if [ -n "$pids" ]; then
+        echo "🔍 Encontrados processos: $pids"
+        
+        # Matar cada processo encontrado
+        for pid in $pids; do
+            echo "⚡ Encerrando processo $pid..."
+            kill $pid 2>/dev/null
+        done
+        
         sleep 2
         
-        # Verificar se o processo ainda está rodando
-        if kill -0 $pid 2>/dev/null; then
-            echo "⚠️  Forçando parada do processo $pid..."
-            kill -9 $pid 2>/dev/null
+        # Verificar se algum processo ainda está rodando e forçar parada
+        local remaining_pids=$(ps aux | grep "allure.*--port $port" | grep -v grep | awk '{print $2}')
+        if [ -n "$remaining_pids" ]; then
+            echo "⚠️  Forçando parada dos processos restantes: $remaining_pids"
+            for pid in $remaining_pids; do
+                kill -9 $pid 2>/dev/null
+            done
         fi
         
         echo "✅ Servidor parado"

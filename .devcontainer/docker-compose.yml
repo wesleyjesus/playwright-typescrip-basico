@@ -9,7 +9,7 @@ services:
         # Passa UID/GID do host para a build (lê .devcontainer/.env ou variáveis de ambiente)
         USER_UID: ${LOCAL_UID}
         USER_GID: ${LOCAL_GID}
-    image: unico-playwright-custom
+    image: playwright-custom
     container_name: playwright-devcontainer-docker
     ipc: host
     env_file:

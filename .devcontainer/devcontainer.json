@@ -28,11 +28,7 @@
 			]
 		}
 	},
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {},
-		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
-		"ghcr.io/devcontainers-extra/features/zsh-plugins:0": {}
-	},
+
 	"forwardPorts": [3000, 9323],
 	"updateRemoteUserUID": true,
 	"postCreateCommand": "git config --global --add safe.directory /home/pwuser/app && yarn install --frozen-lockfile || yarn install && npx playwright install --with-deps"

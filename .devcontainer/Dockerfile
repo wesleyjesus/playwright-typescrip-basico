@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     htop \
-    vim \
     nano \
     tree \
     less \
@@ -50,8 +49,8 @@ RUN npm install -g yarn@latest
 # Atualiza npm globalmente durante a build para sempre usar a versão mais atual estável
 RUN npm install -g npm@latest || true
 
-# Install Java (required for Allure Report CLI) and X11 dependencies for headless operation
-RUN apt-get update && apt-get install -y openjdk-17-jre-headless xvfb \
+# Install Java (required for Allure Report CLI)
+RUN apt-get update && apt-get install -y openjdk-17-jre-headless \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -146,6 +145,9 @@ ENTRYPOINT ["/usr/local/bin/devcontainer-entrypoint.sh"]
 
 WORKDIR ${APP_DIR}
 
+# Ajusta o relógio do sistema
+RUN hwclock --hctosys || true
+
 # Copia arquivos de dependência primeiro. Não forçamos chown aqui porque o
 # entrypoint fará ajustes em tempo de execução para acomodar bind mounts do host.
 COPY package.json yarn.lock* ./
@@ -159,4 +161,4 @@ EXPOSE 3000
 EXPOSE 9323
 
 # Comando padrão (mantém contêiner rodando com servidor Playwright)
-# CMD ["npx", "-y", "playwright", "run-server", "--port", "3000", "--host", "0.0.0.0"]
+CMD ["npx", "-y", "run-server", "--port", "--host", "0.0.0.0"]

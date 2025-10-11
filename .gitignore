@@ -6,8 +6,6 @@ test-results/
 playwright-report/
 *.log
 
-# VSCode settings
-.vscode/
 
 # Environment files
 .env

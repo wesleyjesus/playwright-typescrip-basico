@@ -22,5 +22,9 @@
 		"@playwright/test": "^1.56.0",
 		"@types/node": "^24.5.1",
 		"allure-playwright": "^3.4.1"
+	},
+	"packageManager": "yarn@1.22.22",
+	"dependencies": {
+		"dotenv": "^17.2.3"
 	}
 }

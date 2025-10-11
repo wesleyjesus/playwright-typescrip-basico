@@ -28,7 +28,7 @@ services:
       - "localhost:host-gateway"
     entrypoint: ["/usr/local/bin/devcontainer-entrypoint.sh"]
     command: >
-      /bin/sh -c "npx -y playwright@1.55.0 run-server --port 3000 --host 0.0.0.0"
+      /bin/sh -c "npx -y playwright@latest run-server --port 3000 --host 0.0.0.0"
     init: true
     tty: true
     stdin_open: true

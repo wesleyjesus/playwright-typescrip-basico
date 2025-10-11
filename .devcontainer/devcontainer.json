@@ -24,7 +24,8 @@
 				"formulahendry.code-runner",
 				"ms-vscode.live-server",
 				"GitHub.copilot",
-				"GitHub.copilot-chat"
+				"GitHub.copilot-chat",
+				"amazonwebservices.amazon-q-vscode"
 			]
 		}
 	},

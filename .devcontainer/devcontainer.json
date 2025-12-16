@@ -5,10 +5,23 @@
 	"workspaceFolder": "/home/pwuser/app",
 	"remoteUser": "pwuser",
 	"privileged": true,
+
+	// Use o feature para configurar docker CLI + permissões no socket
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+
+	// Opcional: DOCKER_HOST aponta para o socket unix (por padrão já é isso)
+	"containerEnv": {
+		"DOCKER_HOST": "unix:///var/run/docker.sock"
+	},
+
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"ms-vscode-remote.remote-containers",
+				"ms-azuretools.vscode-docker", // Docker Extension
+				// Remova "ms-azuretools.vscode-containers"
 				"VisualStudioExptTeam.vscodeintellicode",
 				"vscjava.vscode-java-debug",
 				"ms-playwright.playwright",
@@ -17,7 +30,6 @@
 				"dbaeumer.vscode-eslint",
 				"ms-azuretools.vscode-cosmosdb",
 				"christian-kohler.npm-intellisense",
-				"ms-azuretools.vscode-docker",
 				"esbenp.prettier-vscode",
 				"vscode-icons-team.vscode-icons",
 				"mutantdino.resourcemonitor",
@@ -26,11 +38,20 @@
 				"GitHub.copilot",
 				"GitHub.copilot-chat",
 				"amazonwebservices.amazon-q-vscode"
-			]
+			],
+			"settings": {
+				// Esta config só vale no contexto remoto (dentro do container)
+				"docker.host": "unix:///var/run/docker.sock"
+			}
 		}
 	},
 
-	"forwardPorts": [3000, 9323],
+	// Remova o mount manual, o feature já monta com GID correto.
+	// "mounts": [
+	//   "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	// ],
+
+	"forwardPorts": [3000, 4040, 9323],
 	"updateRemoteUserUID": true,
 	"postCreateCommand": "git config --global --add safe.directory /home/pwuser/app && yarn install --frozen-lockfile || yarn install && npx playwright install --with-deps"
 }

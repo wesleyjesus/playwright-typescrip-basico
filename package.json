@@ -15,13 +15,16 @@
 		"allure:restart": "./manage-allure.sh 4040 restart",
 		"allure:status": "./manage-allure.sh 4040 status",
 		"allure:clean": "sudo rm -rf allure-results/* allure-report/* playwright-report/* || rm -rf allure-results/* allure-report/* playwright-report/*",
-		"test:allure": "npm run test:e2e && npm run allure:serve",
-		"test:allure-clean": "npm run allure:clean && npm run test:e2e && npm run allure:serve"
+		"test:allure-serve": "npm run test:e2e && npm run allure:serve",
+		"test:allure": "npm run test:e2e && npm run allure:generate",
+		"test:allure-clean": "npm run allure:clean && npm run test:e2e && npm run allure:serve",
+		"test:ci": "playwright test --reporter=line,allure-playwright"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.56.0",
+		"@playwright/test": "^1.57.0",
 		"@types/node": "^24.5.1",
-		"allure-playwright": "^3.4.1"
+		"allure-playwright": "^3.4.1",
+		"eslint-plugin-playwright": "^2.3.0"
 	},
 	"packageManager": "yarn@1.22.22",
 	"dependencies": {

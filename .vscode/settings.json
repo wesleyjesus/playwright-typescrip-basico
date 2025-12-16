@@ -1,3 +1,6 @@
 {
-	"remote.autoForwardPortsFallback": 0
+	"remote.autoForwardPortsFallback": 0,
+	"containers.environment": {
+		"DOCKER_HOST": "unix:///var/run/docker.sock"
+	}
 }

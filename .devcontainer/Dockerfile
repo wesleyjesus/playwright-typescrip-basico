@@ -37,12 +37,14 @@ RUN usermod -aG sudo pwuser \
 # Instalar Oh My Zsh manualmente para evitar problemas de SSL/certificados
 RUN git config --global http.sslVerify false \
  && git clone https://github.com/ohmyzsh/ohmyzsh.git /home/pwuser/.oh-my-zsh \
- && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh
+ && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh \
+ && chmod -R 755 /home/pwuser/.oh-my-zsh
 
 # Instalar plugins do zsh
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions /home/pwuser/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
  && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/pwuser/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
- && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh/custom
+ && chown -R ${USER_UID}:${USER_GID} /home/pwuser/.oh-my-zsh/custom \
+ && chmod -R 755 /home/pwuser/.oh-my-zsh
 
 RUN npm install -g yarn@latest
 
@@ -118,7 +120,8 @@ RUN echo '# Path to your oh-my-zsh installation.' > /home/pwuser/.zshrc \
 RUN mkdir -p /home/pwuser/.config /home/pwuser/app/node_modules \
  && touch /home/pwuser/.yarnrc \
  && chown -R ${USER_UID}:${USER_GID} /home/pwuser || true \
- && chmod -R a+rwX /home/pwuser || true
+ && chmod -R a+rwX /home/pwuser || true \
+ && chmod -R a+rwX /home/pwuser/app || true
 
 # Configurar Git para aceitar o diretório do projeto como seguro
 # Resolve "potentially unsafe as the folder is owned by someone other than the current user"
@@ -131,10 +134,14 @@ ENV APP_DIR=/home/pwuser/app
 
 # Copia entrypoint que ajusta permissões de bind mounts e executa como pwuser
 COPY .devcontainer/entrypoint.sh /usr/local/bin/devcontainer-entrypoint.sh
-RUN chmod +x /usr/local/bin/devcontainer-entrypoint.sh
+RUN chmod +x /usr/local/bin/devcontainer-entrypoint.sh \
+ && chmod 755 /usr/local/bin/devcontainer-entrypoint.sh
 
 
 # Definimos ENTRYPOINT — o entrypoint executa como root para ajustar permissões
+# O entrypoint aplicará automaticamente as correções:
+# - chmod -R 755 /home/pwuser/.oh-my-zsh (corrige warnings de completions)
+# - chmod -R a+rwX /home/pwuser/app (corrige permissões de escrita do projeto)
 ENTRYPOINT ["/usr/local/bin/devcontainer-entrypoint.sh"]
 
 # NÃO mudamos para USER pwuser aqui. Mantemos root como usuário de runtime para

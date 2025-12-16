@@ -27,6 +27,22 @@ ensure_dir() {
   fi
 }
 
+# Correções de permissões específicas para Oh My Zsh e projeto
+echo "[entrypoint] Aplicando correções de permissões automáticas..."
+
+# Corrigir permissões do Oh My Zsh (evita warnings de completions)
+if [ -d "/home/$PWUSER/.oh-my-zsh" ]; then
+  echo "[entrypoint] Corrigindo permissões do Oh My Zsh"
+  chmod -R 755 "/home/$PWUSER/.oh-my-zsh" 2>/dev/null || true
+  chown -R "$PWUSER:$PWUSER" "/home/$PWUSER/.oh-my-zsh" 2>/dev/null || true
+fi
+
+# Corrigir permissões do projeto completo (similar ao sudo chmod -R a+rwX)
+if [ -d "$PROJECT_DIR" ]; then
+  echo "[entrypoint] Corrigindo permissões do projeto: $PROJECT_DIR"
+  chmod -R a+rwX "$PROJECT_DIR" 2>/dev/null || true
+fi
+
 # Diretórios comuns que precisam ser graváveis por pwuser
 ensure_dir "$PROJECT_DIR/test-results"
 ensure_dir "$PROJECT_DIR/playwright-report"

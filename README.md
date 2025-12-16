@@ -1,14 +1,27 @@
 # Playwright TypeScript - Configuração Completa 🎭
 
+[![Playwright Tests](https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml/badge.svg)](https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml)
+[![Allure Report](https://img.shields.io/badge/Allure-Report-yellow.svg)](https://wesleyjesus.github.io/playwright-typescrip-basico/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue.svg)](https://wesleyjesus.github.io/playwright-typescrip-basico/)
+
 Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwright, incluindo:
 
 - ✅ **DevContainer** configurado com permissões automáticas
 - ✅ **Oh My Zsh** com tema e plugins produtivos
 - ✅ **Allure Report** para relatórios visuais detalhados
+- ✅ **GitHub Pages** para publicação automática de relatórios
 - ✅ **Aliases personalizados** para agilizar o desenvolvimento
 - ✅ **Dual package manager** (npm/yarn) support
+- ✅ **Suporte para desenvolvimento local** (VS Code e Eclipse)
 
-## � Gerenciador de Pacotes
+## 📊 Relatórios Allure Publicados
+
+🔗 **Acesse os relatórios de teste ao vivo:**  
+**[https://wesleyjesus.github.io/playwright-typescrip-basico/](https://wesleyjesus.github.io/playwright-typescrip-basico/)**
+
+Os relatórios são automaticamente atualizados a cada push para `main`.
+
+## 📦 Gerenciador de Pacotes
 
 Este projeto usa **Yarn** como gerenciador de pacotes principal. Todos os comandos de exemplo utilizam Yarn.
 
@@ -32,16 +45,18 @@ npx playwright install
 
 > **Nota**: O projeto possui [`yarn.lock`](yarn.lock). Não use `npm install` para evitar conflitos entre gerenciadores.
 
-## �🚀 Início Rápido
+## 🚀 Início Rápido
 
-### 1. Abrir no DevContainer
+### Opção 1: Usando DevContainer (Recomendado)
+
+#### 1. Abrir no DevContainer
 
 ```bash
 # No VS Code, use Command Palette:
 # > Dev Containers: Reopen in Container
 ```
 
-### 2. Instalar Dependências
+#### 2. Instalar Dependências
 
 ```bash
 # Instalar todas as dependências do projeto
@@ -51,7 +66,7 @@ yarn install
 npx playwright install
 ```
 
-### 3. Verificar Configuração
+#### 3. Verificar Configuração
 
 ```bash
 # Executar teste de verificação do ambiente:
@@ -64,6 +79,210 @@ zsh
 pwtest  # Executa testes Playwright
 pclean  # Limpa relatórios Allure
 pallure # Executa testes e abre Allure
+```
+
+### Opção 2: Desenvolvimento Local (Sem DevContainer)
+
+#### Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+1. **Node.js** (versão 18 ou superior)
+   - [Download Node.js](https://nodejs.org/)
+   - Verificar instalação: `node --version`
+
+2. **Yarn** (gerenciador de pacotes)
+   ```bash
+   npm install -g yarn
+   ```
+
+3. **Java** (para Allure Report)
+   - [Download OpenJDK 17](https://adoptium.net/)
+   - Verificar instalação: `java -version`
+
+4. **Git**
+   - [Download Git](https://git-scm.com/)
+
+#### Configuração no VS Code
+
+1. **Clonar o repositório**:
+   ```bash
+   git clone <url-do-repositorio>
+   cd <nome-do-projeto>
+   ```
+
+2. **Instalar dependências**:
+   ```bash
+   yarn install
+   ```
+
+3. **Instalar navegadores do Playwright**:
+   ```bash
+   npx playwright install
+   ```
+
+4. **Instalar Allure CLI globalmente**:
+   ```bash
+   yarn global add allure-commandline
+   
+   # Ou com npm:
+   npm install -g allure-commandline
+   ```
+
+5. **Configurar ambiente Java headless** (opcional, para Allure):
+   
+   **Linux/macOS**:
+   ```bash
+   export JAVA_OPTS="-Djava.awt.headless=true"
+   export DISPLAY=:99
+   ```
+   
+   **Windows**:
+   ```powershell
+   $env:JAVA_OPTS="-Djava.awt.headless=true"
+   ```
+
+6. **Executar testes**:
+   ```bash
+   yarn test:e2e
+   ```
+
+7. **Abrir relatório Allure**:
+   ```bash
+   yarn allure:serve
+   ```
+
+#### Configuração no Eclipse
+
+O Eclipse não possui suporte nativo para TypeScript/Playwright, mas você pode configurá-lo para trabalhar com o projeto:
+
+1. **Instalar Node.js e Yarn** (conforme pré-requisitos acima)
+
+2. **Importar projeto no Eclipse**:
+   - File → Import → General → Existing Projects into Workspace
+   - Selecione o diretório do projeto
+   - Click em Finish
+
+3. **Instalar plugin Wild Web Developer**:
+   - Help → Eclipse Marketplace
+   - Buscar por "Wild Web Developer"
+   - Instalar o plugin (suporte para TypeScript, JSON, YAML)
+
+4. **Configurar Terminal Integrado**:
+   - Window → Show View → Terminal
+   - No terminal, navegar até a raiz do projeto
+
+5. **Instalar dependências via Terminal**:
+   ```bash
+   yarn install
+   npx playwright install
+   yarn global add allure-commandline
+   ```
+
+6. **Executar testes via Terminal**:
+   ```bash
+   yarn test:e2e
+   ```
+
+7. **Visualizar relatórios**:
+   ```bash
+   yarn allure:serve
+   ```
+
+#### Alternativa: Usar Eclipse com Terminal Externo
+
+Se preferir não usar o terminal integrado:
+
+1. **Abrir terminal externo** (CMD, PowerShell, Bash)
+2. **Navegar até o projeto**:
+   ```bash
+   cd caminho/do/projeto
+   ```
+3. **Executar comandos normalmente**:
+   ```bash
+   yarn install
+   yarn test:e2e
+   yarn allure:serve
+   ```
+
+#### Estrutura de Diretórios para IDEs
+
+```
+projeto/
+├── .vscode/              # Configurações do VS Code
+│   ├── settings.json
+│   └── mcp.json
+├── tests/                # Testes Playwright
+├── playwright.config.ts  # Configuração do Playwright
+├── package.json          # Dependências do projeto
+├── yarn.lock             # Lock file do Yarn
+└── allure-results/       # Resultados dos testes
+```
+
+#### Extensões Recomendadas para VS Code
+
+Instale estas extensões para melhor experiência de desenvolvimento:
+
+1. **Playwright Test for VSCode** (`ms-playwright.playwright`)
+   - Execução visual de testes
+   - Debugging integrado
+   - IntelliSense para Playwright
+
+2. **ESLint** (`dbaeumer.vscode-eslint`)
+   - Linting de código
+
+3. **Prettier** (`esbenp.prettier-vscode`)
+   - Formatação de código
+
+4. **TypeScript Hero** (`rbbit.typescript-hero`)
+   - Organização de imports
+
+Para instalar rapidamente:
+```bash
+code --install-extension ms-playwright.playwright
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension esbenp.prettier-vscode
+code --install-extension rbbit.typescript-hero
+```
+
+#### Troubleshooting - Desenvolvimento Local
+
+**Problema: `yarn: command not found`**
+```bash
+npm install -g yarn
+```
+
+**Problema: Navegadores não encontrados**
+```bash
+npx playwright install
+npx playwright install-deps  # Linux: instala dependências do sistema
+```
+
+**Problema: Allure não encontrado**
+```bash
+yarn global add allure-commandline
+# Verificar PATH global do Yarn
+yarn global bin
+# Adicionar ao PATH se necessário
+```
+
+**Problema: Java não encontrado (Allure)**
+- Instalar OpenJDK 17 ou superior
+- Configurar variável de ambiente `JAVA_HOME`
+
+**Problema: Permissões no Windows**
+```powershell
+# Executar PowerShell como Administrador
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Problema: Porta 4040 em uso (Allure)**
+```bash
+# Parar servidor existente
+yarn allure:stop
+
+# Ou usar porta diferente
+./manage-allure.sh 4041 serve
 ```
 
 ## 🎯 Scripts Disponíveis
@@ -79,6 +298,23 @@ yarn codegen           # Gera código de teste automaticamente
 
 ### Allure Reports
 
+#### 📊 Relatórios Publicados (GitHub Pages)
+
+🔗 **Acesse ao vivo:** [https://wesleyjesus.github.io/playwright-typescrip-basico/](https://wesleyjesus.github.io/playwright-typescrip-basico/)
+
+```bash
+# Deploy rápido - executa testes e publica no GitHub Pages
+./deploy-allure.sh "mensagem do commit"
+
+# Ver ajuda rápida sobre GitHub Pages
+./allure-pages-help.sh
+
+# Ver documentação completa
+cat .github/ALLURE_GITHUB_PAGES.md
+```
+
+#### 🖥️ Relatórios Locais
+
 ```bash
 yarn allure:serve      # Executa testes e abre relatório
 yarn allure:clean      # Limpa resultados anteriores
@@ -88,9 +324,12 @@ yarn allure:stop       # Para servidor Allure
 yarn allure:status     # Verifica status do servidor
 yarn test:allure       # Executa testes + abre relatório
 yarn test:allure-clean # Limpa + executa testes + abre relatório
+yarn test:ci           # Executa testes no modo CI (para GitHub Actions)
 ```
 
-### Aliases Úteis (Oh My Zsh)
+> **📝 Nota**: O workflow do GitHub Actions publica automaticamente os relatórios a cada push para `main`.
+
+### Aliases Úteis (Oh My Zsh - apenas DevContainer)
 
 ```bash
 # Playwright
@@ -111,6 +350,8 @@ allure-clean           # yarn allure:clean
 allure-generate        # yarn allure:generate
 allure-open            # yarn allure:open
 ```
+
+> **Nota**: Os aliases acima funcionam apenas dentro do DevContainer. No desenvolvimento local, use os comandos completos.
 
 ## 🔧 Resolução de Problemas
 
@@ -184,7 +425,7 @@ yarn codegen
 npx playwright codegen https://exemplo.com.br
 ```
 
-### Usando o script personalizado
+### Usando o script personalizado (DevContainer)
 
 ```bash
 # Usar configurações padrão (example.com, chromium)
@@ -222,17 +463,17 @@ npx playwright codegen --load-storage=auth.json https://app.exemplo.com
 npx playwright codegen --color-scheme=dark https://exemplo.com
 ```
 
-## Observações
+## 📝 Observações
 
 - A imagem base do Playwright fornece navegadores e dependências do sistema, mas é importante que a versão do `@playwright/test` no `package.json` esteja alinhada com a imagem Docker (aqui usamos `1.55.0`).
 - Para maior segurança ao rodar Chromium com sandbox habilitado, considere usar o `seccomp_profile.json` recomendado pela documentação do Playwright e rodar o container com `--security-opt seccomp=./seccomp_profile.json`.
 
-## Próximos passos
+## 🔄 Próximos passos
 
 - Adicionar exemplos de testes em `tests/` e configuração `playwright.config.ts`.
 - Integrar comandos de CI (GitHub Actions) para rodar os testes automaticamente.
 
-## Corrigindo permissões no host
+## 🔐 Corrigindo permissões no host
 
 Se ao abrir o Dev Container você receber erros de permissão (EACCES) ao salvar arquivos em `.devcontainer` ou no projeto, execute no host (fora do contêiner):
 
@@ -255,7 +496,7 @@ Depois, reabra/reconstrua o Dev Container no VS Code.
 
 Se você preferir não alterar proprietário, considere usar `chmod -R a+rwX /home/pwuser/app` no host — isso é menos seguro, mas rápido.
 
-#### Comandos úteis usados para diagnóstico e correção
+### Comandos úteis usados para diagnóstico e correção
 
 Antes de alterar permissões, é útil inspecionar atributos estendidos (por exemplo, atributo imutável `i`):
 
@@ -292,7 +533,7 @@ docker-compose -f .devcontainer/docker-compose.yml up --build
 
 Depois abra o projeto no VS Code com Remote - Containers e verifique se agora é possível salvar em `.devcontainer` sem erro de permissão.
 
-## Configuração de Gerenciadores de Pacotes
+## ⚙️ Configuração de Gerenciadores de Pacotes
 
 ### Yarn (Principal)
 
@@ -323,7 +564,7 @@ Sem receber erros EACCES (permission denied).
 
 > ⚠️ **Importante**: Use Yarn para dependências do projeto e npm apenas para instalações globais.
 
-## Shell padrão
+## 🐚 Shell padrão
 
 O container está configurado para usar **zsh** como shell padrão em vez do bash. Isso inclui:
 
@@ -382,10 +623,10 @@ yarn codegen
 O projeto inclui um script automatizado para abrir o **Playwright Codegen**:
 
 ```bash
-# Script direto
+# Script direto (DevContainer)
 ./codegen.sh
 
-# Via Yarn
+# Via Yarn (Local ou DevContainer)
 yarn codegen
 ```
 
@@ -403,39 +644,39 @@ Exemplo de uso das anotações Allure:
 ```typescript
 import { test, expect } from "@playwright/test";
 import {
-	epic,
-	feature,
-	story,
-	severity,
-	description,
-	step,
-	attachment,
-	parameter,
+    epic,
+    feature,
+    story,
+    severity,
+    description,
+    step,
+    attachment,
+    parameter,
 } from "allure-js-commons";
 
 test("Exemplo com Allure", async ({ page }) => {
-	await epic("Módulo Principal");
-	await feature("Funcionalidade de Login");
-	await story("Login com credenciais válidas");
-	await severity("critical");
-	await description("Teste de login básico");
+    await epic("Módulo Principal");
+    await feature("Funcionalidade de Login");
+    await story("Login com credenciais válidas");
+    await severity("critical");
+    await description("Teste de login básico");
 
-	await step("Navegar para login", async () => {
-		await page.goto("/login");
-	});
+    await step("Navegar para login", async () => {
+        await page.goto("/login");
+    });
 
-	await step("Preencher formulário", async () => {
-		await page.fill("#username", "usuario");
-		await page.fill("#password", "senha");
-	});
+    await step("Preencher formulário", async () => {
+        await page.fill("#username", "usuario");
+        await page.fill("#password", "senha");
+    });
 
-	await step("Verificar sucesso", async () => {
-		await expect(page.locator(".success")).toBeVisible();
-	});
+    await step("Verificar sucesso", async () => {
+        await expect(page.locator(".success")).toBeVisible();
+    });
 
-	// Adicionar anexos
-	await attachment("Screenshot", await page.screenshot(), "image/png");
-	await parameter("Browser", "Chromium");
+    // Adicionar anexos
+    await attachment("Screenshot", await page.screenshot(), "image/png");
+    await parameter("Browser", "Chromium");
 });
 ```
 
@@ -569,3 +810,43 @@ sudo chown -R $(id -u):$(id -g) allure-results allure-report
 ```bash
 tail -f allure-server.log
 ```
+
+## 🌐 Ambientes de Desenvolvimento
+
+### Comparação: DevContainer vs Local
+
+| Característica | DevContainer | Local (VS Code/Eclipse) |
+|---------------|--------------|-------------------------|
+| Configuração inicial | Automática | Manual |
+| Dependências do SO | Pré-instaladas | Requer instalação manual |
+| Oh My Zsh | ✅ Incluído | ❌ Não disponível |
+| Aliases personalizados | ✅ Incluído | ❌ Não disponível |
+| Isolamento | ✅ Completo | ❌ Usa ambiente do host |
+| Performance | Boa | Excelente |
+| Portabilidade | ✅ Alta | ⚠️ Depende do SO |
+
+### Quando usar cada opção?
+
+**Use DevContainer se**:
+- Quer ambiente configurado automaticamente
+- Trabalha em equipe (padronização)
+- Precisa de isolamento de dependências
+- Usa Linux/macOS ou WSL2
+
+**Use desenvolvimento local se**:
+- Prefere não usar Docker
+- Tem ambiente Node.js já configurado
+- Precisa de máxima performance
+- Trabalha sozinho no projeto
+
+## 📚 Recursos Adicionais
+
+- [Documentação do Playwright](https://playwright.dev/)
+- [Documentação do Allure Report](https://docs.qameta.io/allure/)
+- [Guia de TypeScript](https://www.typescriptlang.org/docs/)
+- [Yarn Documentation](https://yarnpkg.com/)
+- [VS Code DevContainers](https://code.visualstudio.com/docs/devcontainers/containers)
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.

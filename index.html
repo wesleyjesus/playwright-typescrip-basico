@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Playwright TypeScript - Projeto de Testes</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -17,148 +18,99 @@
       margin: 0 auto;
       padding: 45px;
     }
-    .header {
-      background: white;
-      border-radius: 20px 20px 0 0;
-      padding: 30px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .allure-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }
-    .header h1 {
-      margin: 0;
-      color: #667eea;
-      font-size: 2.5rem;
+    .allure-banner h2 {
+      color: white;
+      font-size: 2rem;
+      margin: 0 0 20px 0;
+      font-weight: 700;
     }
-    .header .subtitle {
-      color: #333;
+    .allure-banner p {
+      color: rgba(255,255,255,0.9);
       font-size: 1.1rem;
-      margin-top: 10px;
-      font-weight: 500;
+      margin-bottom: 25px;
     }
     .allure-button {
       display: inline-block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white !important;
-      padding: 15px 40px;
+      background: white;
+      color: #667eea !important;
+      padding: 18px 50px;
       border-radius: 50px;
       text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 20px 0;
+      font-size: 1.2rem;
+      font-weight: 700;
       transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
     .allure-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      background: #f8f9fa;
     }
     .markdown-body {
       background: white;
       padding: 45px;
-      border-radius: 0 0 20px 20px;
+      border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      color: #24292e !important;
-    }
-    .markdown-body h1,
-    .markdown-body h2,
-    .markdown-body h3,
-    .markdown-body h4,
-    .markdown-body h5,
-    .markdown-body h6 {
-      color: #24292e !important;
-      font-weight: 600 !important;
-      border-bottom: 1px solid #eaecef;
-      padding-bottom: 0.3em;
-      margin-top: 24px;
-      margin-bottom: 16px;
-    }
-    .markdown-body h1:first-child {
-      display: none;
-    }
-    .markdown-body p,
-    .markdown-body li,
-    .markdown-body td,
-    .markdown-body th {
-      color: #24292e !important;
-      line-height: 1.6;
-    }
-    .markdown-body a {
-      color: #0366d6 !important;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .markdown-body a:hover {
-      text-decoration: underline;
-      color: #0366d6 !important;
-    }
-    .markdown-body code {
-      background-color: rgba(27,31,35,0.05) !important;
-      color: #e83e8c !important;
-      padding: 0.2em 0.4em;
-      border-radius: 3px;
-      font-size: 85%;
-    }
-    .markdown-body pre {
-      background-color: #f6f8fa !important;
-      padding: 16px;
-      overflow: auto;
-      border-radius: 6px;
-    }
-    .markdown-body pre code {
-      color: #24292e !important;
-      background-color: transparent !important;
-      padding: 0;
-    }
-    .markdown-body strong {
-      color: #24292e !important;
-      font-weight: 600;
-    }
-    .markdown-body ul,
-    .markdown-body ol {
-      color: #24292e !important;
-      padding-left: 2em;
-    }
-    .markdown-body blockquote {
-      color: #6a737d !important;
-      border-left: 0.25em solid #dfe2e5;
-      padding: 0 1em;
-    }
-    .markdown-body img[alt*="badge"] {
-      display: inline-block;
-      margin: 5px;
-    }
-    .markdown-body table {
-      border-collapse: collapse;
-    }
-    .markdown-body table th,
-    .markdown-body table td {
-      border: 1px solid #dfe2e5;
-      padding: 6px 13px;
-    }
-    .markdown-body table th {
-      font-weight: 600;
-      background-color: #f6f8fa;
     }
     @media (max-width: 768px) {
       .container {
         padding: 20px;
       }
-      .header, .markdown-body {
+      .allure-banner,
+      .markdown-body {
         padding: 20px;
+      }
+      .allure-banner h2 {
+        font-size: 1.5rem;
+      }
+      .allure-button {
+        padding: 15px 35px;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>🎭 Playwright TypeScript</h1>
-      <p class="subtitle">Projeto de Testes Automatizados End-to-End</p>
+    <div class="allure-banner">
+      <h2>📊 Relatórios de Teste Automatizados</h2>
+      <p>Acesse o relatório completo do Allure com histórico de execuções, gráficos e análises detalhadas</p>
       <a href="allure-report/index.html" class="allure-button">
-        📊 Ver Relatório Allure
+        Ver Relatório Allure →
       </a>
     </div>
-    <div class="markdown-body">
-<p><h1>Playwright TypeScript - Configuração Completa 🎭</h1></p><p><a href="https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml/badge.svg">![Playwright Tests</a>](https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml)<br><a href="https://img.shields.io/badge/Allure-Report-yellow.svg">![Allure Report</a>](https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/)<br><a href="https://img.shields.io/badge/GitHub-Pages-blue.svg">![GitHub Pages</a>](https://wesleyjesus.github.io/playwright-typescrip-basico/)</p><p>Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwright, incluindo:</p><p><ul><li>✅ <strong>DevContainer</strong> configurado com permissões automáticas</li><br><li>✅ <strong>Oh My Zsh</strong> com tema e plugins produtivos</li><br><li>✅ <strong>Allure Report</strong> para relatórios visuais detalhados</li><br><li>✅ <strong>GitHub Pages</strong> para publicação automática de relatórios</li><br><li>✅ <strong>Aliases personalizados</strong> para agilizar o desenvolvimento</li><br><li>✅ <strong>Dual package manager</strong> (npm/yarn) support</li><br><li>✅ <strong>Suporte para desenvolvimento local</strong> (VS Code e Eclipse)</li></p><p><h2>📊 Relatórios Allure Publicados</h2></p><p>🔗 <strong>Página Inicial do Projeto</strong>: <a href="https://wesleyjesus.github.io/playwright-typescrip-basico/">https://wesleyjesus.github.io/playwright-typescrip-basico/</a></p><p>🔗 <strong>Relatório Allure Direto</strong>: <a href="https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/">https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/</a></p><p>Os relatórios são automaticamente atualizados a cada push para <code>main</code>.</p><p><h2>📦 Gerenciador de Pacotes</h2></p><p>Este projeto usa <strong>Yarn</strong> como gerenciador de pacotes principal. Todos os comandos de exemplo utilizam Yarn.</p><p><pre><code class="language-bash"><h1>Instalar dependências</h1><br>yarn install</p><p><h1>Adicionar nova dependência</h1><br>yarn add <pacote></p><p><h1>Adicionar dependência de desenvolvimento</h1><br>yarn add -D <pacote></p><p><h1>Atualizar pacotes</h1><br>yarn upgrade</p><p><h1>Atualizar Playwright para a versão mais recente</h1><br>yarn upgrade @playwright/test@latest<br>npx playwright install<br></code></pre></p><p>> <strong>Nota</strong>: O projeto possui <a href="yarn.lock"><code>yarn.lock</code></a>. Não use <code>npm install</code> para evitar conflitos entre gerenciadores.</p><p><h2>🚀 Início Rápido</h2></p><p><h3>Opção 1: Usando DevContainer (Recomendado)</h3></p><p>#### 1. Abrir no DevContainer</p><p><pre><code class="language-bash"><h1>No VS Code, use Command Palette:</h1><br><h1>> Dev Containers: Reopen in Container</h1><br></code></pre></p><p>#### 2. Instalar Dependências</p><p><pre><code class="language-bash"><h1>Instalar todas as dependências do projeto</h1><br>yarn install</p><p><h1>Instalar navegadores do Playwright</h1><br>npx playwright install<br></code></pre></p><p>#### 3. Verificar Configuração</p><p><pre><code class="language-bash"><h1>Executar teste de verificação do ambiente:</h1><br>./test-zsh-setup.sh</p><p><h1>Mudar para zsh (se necessário):</h1><br>zsh</p><p><h1>Testar aliases:</h1><br>pwtest  # Executa testes Playwright<br>pclean  # Limpa relatórios Allure<br>pallure # Executa testes e abre Allure<br></code></pre></p><p><h3>Opção 2: Desenvolvimento Local (Sem DevContainer)</h3></p><p>#### Pré-requisitos</p><p>Antes de começar, certifique-se de ter instalado:</p><p>1. <strong>Node.js</strong> (versão 18 ou superior)<br>   - <a href="https://nodejs.org/">Download Node.js</a><br>   - Verificar instalação: <code>node --version</code></p><p>2. <strong>Yarn</strong> (gerenciador de pacotes)<br>   <pre><code class="language-bash">   npm install -g yarn<br>   </code></pre></p><p>3. <strong>Java</strong> (para Allure Report)<br>   - <a href="https://adoptium.net/">Download OpenJDK 17</a><br>   - Verificar instalação: <code>java -version</code></p><p>4. <strong>Git</strong><br>   - <a href="https://git-scm.com/">Download Git</a></p><p>#### Configuração no VS Code</p><p>1. <strong>Clonar o repositório</strong>:<br>   <pre><code class="language-bash">   git clone <url-do-repositorio><br>   cd <nome-do-projeto><br>   </code></pre></p><p>2. <strong>Instalar dependências</strong>:<br>   <pre><code class="language-bash">   yarn install<br>   </code></pre></p><p>3. <strong>Instalar navegadores do Playwright</strong>:<br>   <pre><code class="language-bash">   npx playwright install<br>   </code></pre></p><p>4. <strong>Instalar Allure CLI globalmente</strong>:<br>   <pre><code class="language-bash">   yarn global add allure-commandline<br>   <br>   # Ou com npm:<br>   npm install -g allure-commandline<br>   </code></pre></p><p>5. <strong>Configurar ambiente Java headless</strong> (opcional, para Allure):<br>   <br>   <strong>Linux/macOS</strong>:<br>   <pre><code class="language-bash">   export JAVA_OPTS="-Djava.awt.headless=true"<br>   export DISPLAY=:99<br>   </code></pre><br>   <br>   <strong>Windows</strong>:<br>   <pre><code class="language-powershell">   $env:JAVA_OPTS="-Djava.awt.headless=true"<br>   </code></pre></p><p>6. <strong>Executar testes</strong>:<br>   <pre><code class="language-bash">   yarn test:e2e<br>   </code></pre></p><p>7. <strong>Abrir relatório Allure</strong>:<br>   <pre><code class="language-bash">   yarn allure:serve<br>   </code></pre></p><p>#### Configuração no Eclipse</p><p>O Eclipse não possui suporte nativo para TypeScript/Playwright, mas você pode configurá-lo para trabalhar com o projeto:</p><p>1. <strong>Instalar Node.js e Yarn</strong> (conforme pré-requisitos acima)</p><p>2. <strong>Importar projeto no Eclipse</strong>:<br>   - File → Import → General → Existing Projects into Workspace<br>   - Selecione o diretório do projeto<br>   - Click em Finish</p><p>3. <strong>Instalar plugin Wild Web Developer</strong>:<br>   - Help → Eclipse Marketplace<br>   - Buscar por "Wild Web Developer"<br>   - Instalar o plugin (suporte para TypeScript, JSON, YAML)</p><p>4. <strong>Configurar Terminal Integrado</strong>:<br>   - Window → Show View → Terminal<br>   - No terminal, navegar até a raiz do projeto</p><p>5. <strong>Instalar dependências via Terminal</strong>:<br>   <pre><code class="language-bash">   yarn install<br>   npx playwright install<br>   yarn global add allure-commandline<br>   </code></pre></p><p>6. <strong>Executar testes via Terminal</strong>:<br>   <pre><code class="language-bash">   yarn test:e2e<br>   </code></pre></p><p>7. <strong>Visualizar relatórios</strong>:<br>   <pre><code class="language-bash">   yarn allure:serve<br>   </code></pre></p><p>#### Alternativa: Usar Eclipse com Terminal Externo</p><p>Se preferir não usar o terminal integrado:</p><p>1. <strong>Abrir terminal externo</strong> (CMD, PowerShell, Bash)<br>2. <strong>Navegar até o projeto</strong>:<br>   <pre><code class="language-bash">   cd caminho/do/projeto<br>   </code></pre><br>3. <strong>Executar comandos normalmente</strong>:<br>   <pre><code class="language-bash">   yarn install<br>   yarn test:e2e<br>   yarn allure:serve<br>   </code></pre></p><p>#### Estrutura de Diretórios para IDEs</p><p><pre><code class="language-">projeto/<br>├── .vscode/              # Configurações do VS Code<br>│   ├── settings.json<br>│   └── mcp.json<br>├── tests/                # Testes Playwright<br>├── playwright.config.ts  # Configuração do Playwright<br>├── package.json          # Dependências do projeto<br>├── yarn.lock             # Lock file do Yarn<br>└── allure-results/       # Resultados dos testes<br></code></pre></p><p>#### Extensões Recomendadas para VS Code</p><p>Instale estas extensões para melhor experiência de desenvolvimento:</p><p>1. <strong>Playwright Test for VSCode</strong> (<code>ms-playwright.playwright</code>)<br>   - Execução visual de testes<br>   - Debugging integrado<br>   - IntelliSense para Playwright</p><p>2. <strong>ESLint</strong> (<code>dbaeumer.vscode-eslint</code>)<br>   - Linting de código</p><p>3. <strong>Prettier</strong> (<code>esbenp.prettier-vscode</code>)<br>   - Formatação de código</p><p>4. <strong>TypeScript Hero</strong> (<code>rbbit.typescript-hero</code>)<br>   - Organização de imports</p><p>Para instalar rapidamente:<br><pre><code class="language-bash">code --install-extension ms-playwright.playwright<br>code --install-extension dbaeumer.vscode-eslint<br>code --install-extension esbenp.prettier-vscode<br>code --install-extension rbbit.typescript-hero<br></code></pre></p><p>#### Troubleshooting - Desenvolvimento Local</p><p><strong>Problema: <code>yarn: command not found</code></strong><br><pre><code class="language-bash">npm install -g yarn<br></code></pre></p><p><strong>Problema: Navegadores não encontrados</strong><br><pre><code class="language-bash">npx playwright install<br>npx playwright install-deps  # Linux: instala dependências do sistema<br></code></pre></p><p><strong>Problema: Allure não encontrado</strong><br><pre><code class="language-bash">yarn global add allure-commandline<br><h1>Verificar PATH global do Yarn</h1><br>yarn global bin<br><h1>Adicionar ao PATH se necessário</h1><br></code></pre></p><p><strong>Problema: Java não encontrado (Allure)</strong><br><li>Instalar OpenJDK 17 ou superior</li><br><li>Configurar variável de ambiente <code>JAVA_HOME</code></li></p><p><strong>Problema: Permissões no Windows</strong><br><pre><code class="language-powershell"><h1>Executar PowerShell como Administrador</h1><br>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser<br></code></pre></p><p><strong>Problema: Porta 4040 em uso (Allure)</strong><br><pre><code class="language-bash"><h1>Parar servidor existente</h1><br>yarn allure:stop</p><p><h1>Ou usar porta diferente</h1><br>./manage-allure.sh 4041 serve<br></code></pre></p><p><h2>🎯 Scripts Disponíveis</h2></p><p><h3>Testes Playwright</h3></p><p><pre><code class="language-bash">yarn test:e2e          # Executa todos os testes<br>yarn test:headed       # Executa com interface gráfica<br>yarn test:debug        # Modo debug com PWDEBUG<br>yarn codegen           # Gera código de teste automaticamente<br></code></pre></p><p><h3>Allure Reports</h3></p><p>#### 📊 Relatórios Publicados (GitHub Pages)</p><p>🔗 <strong>Acesse ao vivo:</strong> <a href="https://wesleyjesus.github.io/playwright-typescrip-basico/">https://wesleyjesus.github.io/playwright-typescrip-basico/</a></p><p><pre><code class="language-bash"><h1>Deploy rápido - executa testes e publica no GitHub Pages</h1><br>./deploy-allure.sh "mensagem do commit"</p><p><h1>Ver ajuda rápida sobre GitHub Pages</h1><br>./allure-pages-help.sh</p><p><h1>Ver documentação completa</h1><br>cat .github/ALLURE_GITHUB_PAGES.md<br></code></pre></p><p>#### 🖥️ Relatórios Locais</p><p><pre><code class="language-bash">yarn allure:serve      # Executa testes e abre relatório<br>yarn allure:clean      # Limpa resultados anteriores<br>yarn allure:generate   # Gera relatório sem abrir<br>yarn allure:open       # Abre relatório existente<br>yarn allure:stop       # Para servidor Allure<br>yarn allure:status     # Verifica status do servidor<br>yarn test:allure       # Executa testes + abre relatório<br>yarn test:allure-clean # Limpa + executa testes + abre relatório<br>yarn test:ci           # Executa testes no modo CI (para GitHub Actions)<br></code></pre></p><p>> <strong>📝 Nota</strong>: O workflow do GitHub Actions publica automaticamente os relatórios a cada push para <code>main</code>.</p><p><h3>Aliases Úteis (Oh My Zsh - apenas DevContainer)</h3></p><p><pre><code class="language-bash"><h1>Playwright</h1><br>pw                      # npx playwright<br>pwtest                  # npx playwright test<br>pwcodegen              # npx playwright codegen<br>pwshow                 # npx playwright show-report</p><p><h1>Gestão de projetos</h1><br>ptest                  # yarn test:e2e<br>pcodegen               # yarn codegen<br>pallure                # yarn allure:serve<br>pclean                 # yarn allure:clean</p><p><h1>Allure direto</h1><br>allure-serve           # yarn allure:serve<br>allure-clean           # yarn allure:clean<br>allure-generate        # yarn allure:generate<br>allure-open            # yarn allure:open<br></code></pre></p><p>> <strong>Nota</strong>: Os aliases acima funcionam apenas dentro do DevContainer. No desenvolvimento local, use os comandos completos.</p><p><h2>🔧 Resolução de Problemas</h2></p><p><h3>Problema de Permissões EACCES</h3></p><p>Se encontrar erros de permissão ao salvar arquivos:</p><p><strong>No host (fora do container):</strong></p><p><pre><code class="language-bash"><h1>Verificar atributos dos arquivos</h1><br>lsattr .devcontainer/</p><p><h1>Corrigir permissões se necessário</h1><br>chmod -R a+rwX .devcontainer/<br></code></pre></p><p><strong>No container:</strong></p><p><pre><code class="language-bash"><h1>Corrigir permissões do Allure</h1><br>sudo chown -R $(id -u):$(id -g) allure-results allure-report</p><p><h1>Ou use o comando de limpeza que inclui sudo:</h1><br>yarn allure:clean<br></code></pre></p><p><h3>Oh My Zsh não carregado</h3></p><p><pre><code class="language-bash"><h1>Verificar se está usando zsh</h1><br>echo $SHELL</p><p><h1>Mudar para zsh se necessário</h1><br>zsh</p><p><h1>Recarregar configuração</h1><br>source ~/.zshrc</p><p><h1>Verificar instalação</h1><br>./test-zsh-setup.sh<br></code></pre></p><p><h3>Servidor Allure com problemas</h3></p><p><pre><code class="language-bash"><h1>Verificar status</h1><br>yarn allure:status</p><p><h1>Reiniciar servidor</h1><br>yarn allure:restart</p><p><h1>Parar servidor manualmente</h1><br>yarn allure:stop</p><p><h1>Verificar portas em uso</h1><br>./manage-allure.sh 4040 status<br></code></pre></p><p><h2>🎭 Playwright Codegen</h2></p><p>Este projeto inclui scripts para facilitar o uso do Playwright Codegen para gravação de testes.</p><p><h3>Usando Yarn</h3></p><p><pre><code class="language-bash"><h1>Abrir codegen com configurações padrão</h1><br>yarn codegen</p><p><h1>Abrir codegen em uma URL específica</h1><br>npx playwright codegen https://exemplo.com.br<br></code></pre></p><p><h3>Usando o script personalizado (DevContainer)</h3></p><p><pre><code class="language-bash"><h1>Usar configurações padrão (example.com, chromium)</h1><br>./codegen.sh</p><p><h1>Especificar URL</h1><br>./codegen.sh https://google.com</p><p><h1>Especificar URL e browser</h1><br>./codegen.sh https://google.com firefox</p><p><h1>Usar opções adicionais</h1><br>./codegen.sh https://google.com chromium --ignore-https-errors<br></code></pre></p><p><h3>Opções úteis do Playwright Codegen</h3></p><p><li><code>--browser=chromium|firefox|webkit</code> - Escolher o browser</li><br><li><code>--device="iPhone 12"</code> - Emular dispositivo específico</li><br><li><code>--viewport-size=1920,1080</code> - Definir tamanho da viewport</li><br><li><code>--ignore-https-errors</code> - Ignorar erros de HTTPS</li><br><li><code>--save-storage=auth.json</code> - Salvar estado de autenticação</li><br><li><code>--load-storage=auth.json</code> - Carregar estado de autenticação</li></p><p><h3>Exemplos avançados</h3></p><p><pre><code class="language-bash"><h1>Codegen para mobile</h1><br>npx playwright codegen --device="iPhone 12" https://google.com</p><p><h1>Codegen com autenticação salva</h1><br>npx playwright codegen --load-storage=auth.json https://app.exemplo.com</p><p><h1>Codegen em modo escuro</h1><br>npx playwright codegen --color-scheme=dark https://exemplo.com<br></code></pre></p><p><h2>📝 Observações</h2></p><p><li>A imagem base do Playwright fornece navegadores e dependências do sistema, mas é importante que a versão do <code>@playwright/test</code> no <code>package.json</code> esteja alinhada com a imagem Docker (aqui usamos <code>1.55.0</code>).</li><br><li>Para maior segurança ao rodar Chromium com sandbox habilitado, considere usar o <code>seccomp_profile.json</code> recomendado pela documentação do Playwright e rodar o container com <code>--security-opt seccomp=./seccomp_profile.json</code>.</li></p><p><h2>🔄 Próximos passos</h2></p><p><li>Adicionar exemplos de testes em <code>tests/</code> e configuração <code>playwright.config.ts</code>.</li><br><li>Integrar comandos de CI (GitHub Actions) para rodar os testes automaticamente.</li></p><p><h2>🔐 Corrigindo permissões no host</h2></p><p>Se ao abrir o Dev Container você receber erros de permissão (EACCES) ao salvar arquivos em <code>.devcontainer</code> ou no projeto, execute no host (fora do contêiner):</p><p><pre><code class="language-bash"><h1>Torna o script executável (uma vez)</h1><br>chmod +x .devcontainer/fix-host-perms.sh</p><p><h1>Executa o script (pedirá confirmação e sudo)</h1><br>.devcontainer/fix-host-perms.sh<br></code></pre></p><p>O script irá:</p><p><li>Salvar o estado atual do diretório em <code>.devcontainer/perms-before.txt</code>.</li><br><li>Executar <code>sudo chown -R pwuser:pwuser /home/pwuser/app</code>.</li><br><li>Aplicar <code>chmod -R u+rwX /home/pwuser/app</code>.</li><br><li>Salvar o estado final em <code>.devcontainer/perms-after.txt</code>.</li></p><p>Depois, reabra/reconstrua o Dev Container no VS Code.</p><p>Se você preferir não alterar proprietário, considere usar <code>chmod -R a+rwX /home/pwuser/app</code> no host — isso é menos seguro, mas rápido.</p><p><h3>Comandos úteis usados para diagnóstico e correção</h3></p><p>Antes de alterar permissões, é útil inspecionar atributos estendidos (por exemplo, atributo imutável <code>i</code>):</p><p><pre><code class="language-bash"><h1>Verifica se o diretório tem o atributo imutável (i)</h1><br>lsattr -d /home/pwuser/app /home/pwuser/app/.devcontainer</p><p><h1>Lista atributos dos arquivos dentro de .devcontainer</h1><br>lsattr /home/pwuser/app/.devcontainer/*<br></code></pre></p><p>Se não houver atributo <code>i</code> (imutável), os comandos abaixo ajustam permissões para permitir gravação:</p><p><pre><code class="language-bash"><h1>Torna todos arquivos e pastas graváveis por todos os usuários (mais aberto)</h1><br>sudo chmod -R a+rwX /home/pwuser/app</p><p><h1>Alternativa mais restrita (aplica permissão apenas ao dono)</h1><br>sudo chmod -R u+rwX /home/pwuser/app<br></code></pre></p><p>Aviso: usar <code>a+rwX</code> concede permissões amplas (a todos os usuários). Prefira <code>u+rwX</code> sempre que possível.</p><p><h3>Ajuste automático ao iniciar o contêiner</h3></p><p>O Dev Container agora inclui um <code>entrypoint</code> (<code>.devcontainer/entrypoint.sh</code>) que tenta ajustar automaticamente a propriedade dos arquivos montados para o usuário <code>pwuser</code> no momento da inicialização. Para que isso funcione, o serviço precisa iniciar como <code>root</code> (o <code>docker-compose.yml</code> foi atualizado para iniciar como root por padrão). O entrypoint tentará executar <code>chown</code> sobre <code>/home/pwuser/app</code> e então executará o comando do container como <code>pwuser</code>.</p><p>Para aplicar todas as mudanças (Dockerfile, entrypoint e compose), reconstrua o container:</p><p><pre><code class="language-bash"><h1>Na raiz do projeto</h1><br>docker-compose -f .devcontainer/docker-compose.yml up --build<br></code></pre></p><p>Depois abra o projeto no VS Code com Remote - Containers e verifique se agora é possível salvar em <code>.devcontainer</code> sem erro de permissão.</p><p><h2>⚙️ Configuração de Gerenciadores de Pacotes</h2></p><p><h3>Yarn (Principal)</h3></p><p>Este projeto usa <strong>Yarn</strong> como gerenciador principal. Todos os scripts são otimizados para Yarn:</p><p><pre><code class="language-bash">yarn install           # Instalar dependências<br>yarn test:e2e          # Executar testes<br>yarn allure:serve      # Servir relatório Allure<br></code></pre></p><p><h3>npm (Disponível para instalações globais)</h3></p><p>O Dev Container também está configurado para permitir instalações globais do npm sem sudo:</p><p><li><code>NPM_CONFIG_PREFIX=/home/pwuser/.npm-global</code> - diretório para pacotes globais</li><br><li>PATH atualizado para incluir <code>/home/pwuser/.npm-global/bin</code></li><br><li>Configuração persistida no <code>.zshrc</code> do usuário</li></p><p>Isso permite executar comandos como:</p><p><pre><code class="language-bash">npm install -g <pacote><br>npm install -g npm@latest<br></code></pre></p><p>Sem receber erros EACCES (permission denied).</p><p>> ⚠️ <strong>Importante</strong>: Use Yarn para dependências do projeto e npm apenas para instalações globais.</p><p><h2>🐚 Shell padrão</h2></p><p>O container está configurado para usar <strong>zsh</strong> como shell padrão em vez do bash. Isso inclui:</p><p><li>Zsh instalado durante a build da imagem</li><br><li><strong>Oh My Zsh</strong> instalado automaticamente com tema "devcontainers"</li><br><li>Configurado como shell padrão para o usuário <code>pwuser</code></li><br><li>Configurações do npm aplicadas ao <code>.zshrc</code></li><br><li>Features do Dev Container para plugins e histórico do zsh</li></p><p><h3>Oh My Zsh Features</h3></p><p>O Oh My Zsh fornece:</p><p><li>Centenas de plugins úteis</li><br><li>Temas visuais atraentes</li><br><li>Auto-complete inteligente</li><br><li>Aliases úteis para desenvolvimento</li><br><li>Histórico de comandos melhorado</li></p><p><h2>🎯 Testes com Playwright e Allure Report</h2></p><p>Este projeto está configurado com <strong>Playwright** para testes end-to-end e **Allure Report</strong> para geração de relatórios visuais detalhados.</p><p><h3>Configuração do Allure</h3></p><p>O Allure Report foi integrado com os seguintes componentes:</p><p><li><strong>allure-playwright</strong>: Plugin para integração com Playwright</li><br><li><strong>allure-commandline</strong>: CLI global para gerar e servir relatórios</li><br><li><strong>Configuração dual</strong>: HTML nativo + Allure no <code>playwright.config.ts</code></li></p><p><h3>Scripts Disponíveis</h3></p><p><pre><code class="language-bash"><h1>Executar testes normalmente (gera relatórios HTML e Allure)</h1><br>yarn test:e2e</p><p><h1>Executar testes com relatório Allure apenas</h1><br>yarn test:allure</p><p><h1>Limpar + executar testes + abrir relatório</h1><br>yarn test:allure-clean</p><p><h1>Gerar relatório Allure a partir dos resultados</h1><br>yarn allure:generate</p><p><h1>Servir relatório Allure no navegador</h1><br>yarn allure:serve</p><p><h1>Abrir Playwright Codegen</h1><br>yarn codegen<br></code></pre></p><p><h3>Playwright Codegen</h3></p><p>O projeto inclui um script automatizado para abrir o <strong>Playwright Codegen</strong>:</p><p><pre><code class="language-bash"><h1>Script direto (DevContainer)</h1><br>./codegen.sh</p><p><h1>Via Yarn (Local ou DevContainer)</h1><br>yarn codegen<br></code></pre></p><p>O codegen permite:</p><p><li>Gravação automática de interações</li><br><li>Geração de código de teste</li><br><li>Inspeção de elementos</li><br><li>Depuração visual</li></p><p><h3>Usando Allure nos Testes</h3></p><p>Exemplo de uso das anotações Allure:</p><p><pre><code class="language-typescript">import { test, expect } from "@playwright/test";<br>import {<br>    epic,<br>    feature,<br>    story,<br>    severity,<br>    description,<br>    step,<br>    attachment,<br>    parameter,<br>} from "allure-js-commons";</p><p>test("Exemplo com Allure", async ({ page }) => {<br>    await epic("Módulo Principal");<br>    await feature("Funcionalidade de Login");<br>    await story("Login com credenciais válidas");<br>    await severity("critical");<br>    await description("Teste de login básico");</p><p>    await step("Navegar para login", async () => {<br>        await page.goto("/login");<br>    });</p><p>    await step("Preencher formulário", async () => {<br>        await page.fill("#username", "usuario");<br>        await page.fill("#password", "senha");<br>    });</p><p>    await step("Verificar sucesso", async () => {<br>        await expect(page.locator(".success")).toBeVisible();<br>    });</p><p>    // Adicionar anexos<br>    await attachment("Screenshot", await page.screenshot(), "image/png");<br>    await parameter("Browser", "Chromium");<br>});<br></code></pre></p><p><h3>Estrutura de Relatórios</h3></p><p>Os relatórios são organizados da seguinte forma:</p><p><pre><code class="language-">📁 allure-results/    # Dados brutos dos testes<br>📁 allure-report/     # Relatório HTML gerado<br>📁 test-results/      # Screenshots e vídeos<br>📁 playwright-report/ # Relatório HTML nativo<br></code></pre></p><p><h3>Allure em Ambiente DevContainer</h3></p><p>O projeto está configurado para funcionar em ambiente headless (sem interface gráfica). Para usar o Allure:</p><p>1. <strong>Configurar ambiente</strong> (primeira vez):</p><p>   <pre><code class="language-bash">   ./setup-allure.sh<br>   </code></pre></p><p>2. <strong>Executar testes e gerar dados</strong>:</p><p>   <pre><code class="language-bash">   yarn test:e2e<br>   </code></pre></p><p>3. <strong>Gerenciar servidor Allure</strong>:</p><p>   <pre><code class="language-bash">   yarn allure:serve      # Iniciar servidor<br>   yarn allure:status     # Verificar status<br>   yarn allure:restart    # Reiniciar servidor<br>   yarn allure:stop       # Parar servidor<br>   </code></pre></p><p>4. <strong>Acessar no navegador</strong>:</p><p>   - O relatório estará disponível em <code>http://localhost:4040</code><br>   - Use o Simple Browser do VS Code ou acesse externamente</p><p>5. <strong>Workflow completo</strong>:</p><p>   <pre><code class="language-bash">   yarn test:allure       # Testa + inicia servidor<br>   yarn test:allure-clean # Limpa + testa + inicia servidor<br>   </code></pre></p><p>6. <strong>Gerenciamento avançado</strong>:</p><p>   <pre><code class="language-bash">   ./manage-allure.sh 4041 serve    # Porta personalizada<br>   ./manage-allure.sh 4040 status   # Verificar status<br>   ./manage-allure.sh --help        # Ver todas as opções<br>   </code></pre></p><p><h3>Anotações Allure Disponíveis</h3></p><p><li><strong><code>epic()</code></strong>: Agrupa funcionalidades de alto nível</li><br><li><strong><code>feature()</code></strong>: Funcionalidade específica</li><br><li><strong><code>story()</code></strong>: Cenário de usuário</li><br><li><strong><code>severity()</code></strong>: Criticidade (blocker, critical, normal, minor, trivial)</li><br><li><strong><code>description()</code></strong>: Descrição detalhada</li><br><li><strong><code>step()</code></strong>: Passos individuais</li><br><li><strong><code>attachment()</code></strong>: Anexos (screenshots, logs, etc.)</li><br><li><strong><code>parameter()</code></strong>: Parâmetros de teste</li></p><p>> <strong>Nota</strong>: As funções Allure agora são importadas diretamente do <code>allure-js-commons</code> em vez da API depreciada <code>allure-playwright</code>.</p><p><h3>Workflow Completo</h3></p><p>1. <strong>Desenvolver testes</strong> com anotações Allure<br>2. <strong>Executar testes</strong>: <code>yarn test:allure</code><br>3. <strong>Gerar relatório</strong>: <code>yarn allure:generate</code><br>4. <strong>Visualizar resultados</strong>: <code>yarn allure:serve</code><br>5. <strong>Workflow limpo</strong>: <code>yarn test:allure-clean</code> (limpa + testa + visualiza)</p><p>O relatório Allure oferece:</p><p><li>Timeline de execução</li><br><li>Gráficos de tendências</li><br><li>Categorização de falhas</li><br><li>Histórico de execuções</li><br><li>Screenshots automáticos</li><br><li>Logs detalhados</li></p><p><h3>Troubleshooting Allure</h3></p><p><strong>Problema: "Address already in use"</strong></p><p><pre><code class="language-bash"><h1>Solução: parar o servidor existente</h1><br>yarn allure:stop<br>yarn allure:serve<br></code></pre></p><p><strong>Problema: "Could not serve the report"</strong></p><p><pre><code class="language-bash"><h1>Verificar se há dados de teste</h1><br>ls -la allure-results/</p><p><h1>Executar testes primeiro</h1><br>yarn test:e2e<br>yarn allure:serve<br></code></pre></p><p><strong>Problema: Java headless não funciona</strong></p><p><pre><code class="language-bash"><h1>Reconfigurar ambiente</h1><br>./setup-allure.sh<br>yarn allure:restart<br></code></pre></p><p><strong>Problema: Permissões ao limpar resultados</strong></p><p><pre><code class="language-bash"><h1>Usar comando de limpeza com sudo</h1><br>yarn allure:clean</p><p><h1>Ou corrigir permissões manualmente</h1><br>sudo chown -R $(id -u):$(id -g) allure-results allure-report<br></code></pre></p><p><strong>Verificar logs do servidor</strong></p><p><pre><code class="language-bash">tail -f allure-server.log<br></code></pre></p><p><h2>🌐 Ambientes de Desenvolvimento</h2></p><p><h3>Comparação: DevContainer vs Local</h3></p><p>| Característica | DevContainer | Local (VS Code/Eclipse) |<br>|---------------|--------------|-------------------------|<br>| Configuração inicial | Automática | Manual |<br>| Dependências do SO | Pré-instaladas | Requer instalação manual |<br>| Oh My Zsh | ✅ Incluído | ❌ Não disponível |<br>| Aliases personalizados | ✅ Incluído | ❌ Não disponível |<br>| Isolamento | ✅ Completo | ❌ Usa ambiente do host |<br>| Performance | Boa | Excelente |<br>| Portabilidade | ✅ Alta | ⚠️ Depende do SO |</p><p><h3>Quando usar cada opção?</h3></p><p><strong>Use DevContainer se</strong>:<br><li>Quer ambiente configurado automaticamente</li><br><li>Trabalha em equipe (padronização)</li><br><li>Precisa de isolamento de dependências</li><br><li>Usa Linux/macOS ou WSL2</li></p><p><strong>Use desenvolvimento local se</strong>:<br><li>Prefere não usar Docker</li><br><li>Tem ambiente Node.js já configurado</li><br><li>Precisa de máxima performance</li><br><li>Trabalha sozinho no projeto</li></p><p><h2>📚 Recursos Adicionais</h2></p><p><li><a href="https://playwright.dev/">Documentação do Playwright</a></li><br><li><a href="https://docs.qameta.io/allure/">Documentação do Allure Report</a></li><br><li><a href="https://www.typescriptlang.org/docs/">Guia de TypeScript</a></li><br><li><a href="https://yarnpkg.com/">Yarn Documentation</a></li><br><li><a href="https://code.visualstudio.com/docs/devcontainers/containers">VS Code DevContainers</a></li></ul></p><p><h2>📄 Licença</h2></p><p>Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.</p>    </div>
+    <article class="markdown-body" id="content">
+      <p>Carregando README...</p>
+    </article>
   </div>
+  <script>
+    // Carregar e renderizar README.md
+    fetch('README.md')
+      .then(response => response.text())
+      .then(markdown => {
+        // Configurar marked para renderizar corretamente
+        marked.setOptions({
+          breaks: true,
+          gfm: true,
+          headerIds: true,
+          mangle: false
+        });
+        
+        // Renderizar markdown
+        document.getElementById('content').innerHTML = marked.parse(markdown);
+      })
+      .catch(error => {
+        document.getElementById('content').innerHTML = '<p>Erro ao carregar README.md</p>';
+        console.error('Error loading README:', error);
+      });
+  </script>
 </body>
 </html>

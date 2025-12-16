@@ -57,17 +57,34 @@ jobs:
             echo "No existing history found"
           fi
 
+      - name: Install Java (required for Allure)
+        if: always()
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          echo "Installing Allure CLI..."
+          npm install -g allure-commandline --save-dev
+          allure --version
+
       - name: Generate Allure Report
         if: always()
         run: |
           echo "Generating Allure report..."
-          npm run allure:generate
+          allure generate allure-results --clean -o allure-report
 
       - name: Debug - List generated files
         if: always()
         run: |
           echo "=== Checking allure-report directory ==="
           ls -laR allure-report/ || echo "allure-report directory not found"
+          echo ""
+          echo "=== Checking for index.html ==="
+          find allure-report -name "index.html" || echo "No index.html found"
           echo ""
           echo "=== Current directory structure ==="
           ls -la

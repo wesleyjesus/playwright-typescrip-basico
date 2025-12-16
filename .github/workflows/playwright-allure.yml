@@ -45,22 +45,29 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@master
+      - name: Copy Allure history
         if: always()
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-          keep_reports: 20
+        continue-on-error: true
+        run: |
+          if [ -d "gh-pages/allure-report/history" ]; then
+            echo "Copying existing history..."
+            mkdir -p allure-results/history
+            cp -r gh-pages/allure-report/history/* allure-results/history/
+          else
+            echo "No existing history found"
+          fi
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          echo "Generating Allure report..."
+          npm run allure:generate
 
       - name: Debug - List generated files
         if: always()
         run: |
-          echo "=== Checking allure-history directory ==="
-          ls -la allure-history/ || echo "allure-history directory not found"
-          echo ""
-          echo "=== Checking for index.html in allure-history ==="
-          find allure-history -name "index.html" || echo "No index.html found"
+          echo "=== Checking allure-report directory ==="
+          ls -laR allure-report/ || echo "allure-report directory not found"
           echo ""
           echo "=== Current directory structure ==="
           ls -la
@@ -71,12 +78,16 @@ jobs:
           echo "Creating gh-pages-deploy directory structure..."
           mkdir -p gh-pages-deploy/allure-report
 
-          # Verificar se allure-history existe e tem conteúdo
-          if [ -d "allure-history" ] && [ "$(ls -A allure-history)" ]; then
-            echo "Copying allure-history to gh-pages-deploy/allure-report..."
-            cp -r allure-history/* gh-pages-deploy/allure-report/
+          # Verificar se allure-report existe e tem conteúdo
+          if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
+            echo "Copying allure-report to gh-pages-deploy/allure-report..."
+            cp -r allure-report/* gh-pages-deploy/allure-report/
+            
+            echo "✅ Allure report copied successfully"
+            echo "Files in allure-report:"
+            ls -la gh-pages-deploy/allure-report/
           else
-            echo "WARNING: allure-history is empty or doesn't exist!"
+            echo "WARNING: allure-report is empty or doesn't exist!"
             echo "Creating placeholder index.html in allure-report..."
             cat > gh-pages-deploy/allure-report/index.html << 'PLACEHOLDER'
           <!DOCTYPE html>
@@ -100,12 +111,27 @@ jobs:
                 border-radius: 10px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
               }
+              .spinner {
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #667eea;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                margin: 20px auto;
+              }
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
             </style>
           </head>
           <body>
             <div class="message">
-              <h1>⚠️ Relatório em processamento</h1>
-              <p>O relatório Allure será gerado na próxima execução dos testes.</p>
+              <div class="spinner"></div>
+              <h1>⚠️ Relatório em Processamento</h1>
+              <p>O relatório Allure está sendo gerado.</p>
+              <p>Aguarde alguns minutos e atualize a página.</p>
               <p><a href="../">← Voltar para página inicial</a></p>
             </div>
           </body>

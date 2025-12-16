@@ -53,13 +53,67 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
 
+      - name: Debug - List generated files
+        if: always()
+        run: |
+          echo "=== Checking allure-history directory ==="
+          ls -la allure-history/ || echo "allure-history directory not found"
+          echo ""
+          echo "=== Checking for index.html in allure-history ==="
+          find allure-history -name "index.html" || echo "No index.html found"
+          echo ""
+          echo "=== Current directory structure ==="
+          ls -la
+
       - name: Create GitHub Pages structure
         if: always()
         run: |
+          echo "Creating gh-pages-deploy directory structure..."
           mkdir -p gh-pages-deploy/allure-report
-          cp -r allure-history/* gh-pages-deploy/allure-report/
 
-          # Criar página inicial (index.html) a partir do README.md
+          # Verificar se allure-history existe e tem conteúdo
+          if [ -d "allure-history" ] && [ "$(ls -A allure-history)" ]; then
+            echo "Copying allure-history to gh-pages-deploy/allure-report..."
+            cp -r allure-history/* gh-pages-deploy/allure-report/
+          else
+            echo "WARNING: allure-history is empty or doesn't exist!"
+            echo "Creating placeholder index.html in allure-report..."
+            cat > gh-pages-deploy/allure-report/index.html << 'PLACEHOLDER'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Relatório não disponível</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f5f5f5;
+              }
+              .message {
+                text-align: center;
+                padding: 40px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+              }
+            </style>
+          </head>
+          <body>
+            <div class="message">
+              <h1>⚠️ Relatório em processamento</h1>
+              <p>O relatório Allure será gerado na próxima execução dos testes.</p>
+              <p><a href="../">← Voltar para página inicial</a></p>
+            </div>
+          </body>
+          </html>
+          PLACEHOLDER
+          fi
+
+          echo "Creating landing page (index.html)..."
           cat > gh-pages-deploy/index.html << 'EOF'
           <!DOCTYPE html>
           <html lang="pt-BR">
@@ -229,6 +283,9 @@ jobs:
           </body>
           </html>
           EOF
+
+          echo "=== Final structure of gh-pages-deploy ==="
+          ls -laR gh-pages-deploy/
 
       - name: Deploy to Github Pages
         if: always()

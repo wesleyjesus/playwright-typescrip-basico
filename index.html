@@ -75,10 +75,6 @@
       transform: translateY(-3px);
       box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
     }
-    .cta-button.disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -120,14 +116,6 @@
       font-size: 2rem;
       margin-bottom: 10px;
     }
-    .warning {
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px 0;
-      color: #856404;
-    }
   </style>
 </head>
 <body>
@@ -146,14 +134,8 @@
       <p>Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwright, incluindo relatórios visuais detalhados gerados automaticamente pelo Allure Report.</p>
     </div>
 
-    <div class="warning">
-      <strong>⚠️ Primeiro Deploy</strong><br>
-      O relatório Allure será gerado após a primeira execução dos testes.<br>
-      Execute um push para a branch main para iniciar o processo.
-    </div>
-
-    <a href="allure-report/index.html" class="cta-button disabled">
-      📊 Relatório em Processamento...
+    <a href="allure-report/index.html" class="cta-button">
+      📊 Ver Relatório Allure
     </a>
 
     <div class="features">
@@ -178,6 +160,7 @@
     <div class="links">
       <a href="https://github.com/wesleyjesus/playwright-typescrip-basico" target="_blank">📁 Repositório</a>
       <a href="https://github.com/wesleyjesus/playwright-typescrip-basico/actions" target="_blank">⚙️ Actions</a>
+      <a href="allure-report/index.html">📊 Relatório</a>
     </div>
   </div>
 </body>

@@ -29,9 +29,10 @@
       font-size: 2.5rem;
     }
     .header .subtitle {
-      color: #666;
+      color: #333;
       font-size: 1.1rem;
       margin-top: 10px;
+      font-weight: 500;
     }
     .allure-button {
       display: inline-block;
@@ -55,13 +56,87 @@
       padding: 45px;
       border-radius: 0 0 20px 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      color: #24292e !important;
+    }
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+      color: #24292e !important;
+      font-weight: 600 !important;
+      border-bottom: 1px solid #eaecef;
+      padding-bottom: 0.3em;
+      margin-top: 24px;
+      margin-bottom: 16px;
     }
     .markdown-body h1:first-child {
       display: none;
     }
+    .markdown-body p,
+    .markdown-body li,
+    .markdown-body td,
+    .markdown-body th {
+      color: #24292e !important;
+      line-height: 1.6;
+    }
+    .markdown-body a {
+      color: #0366d6 !important;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .markdown-body a:hover {
+      text-decoration: underline;
+      color: #0366d6 !important;
+    }
+    .markdown-body code {
+      background-color: rgba(27,31,35,0.05) !important;
+      color: #e83e8c !important;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-size: 85%;
+    }
+    .markdown-body pre {
+      background-color: #f6f8fa !important;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 6px;
+    }
+    .markdown-body pre code {
+      color: #24292e !important;
+      background-color: transparent !important;
+      padding: 0;
+    }
+    .markdown-body strong {
+      color: #24292e !important;
+      font-weight: 600;
+    }
+    .markdown-body ul,
+    .markdown-body ol {
+      color: #24292e !important;
+      padding-left: 2em;
+    }
+    .markdown-body blockquote {
+      color: #6a737d !important;
+      border-left: 0.25em solid #dfe2e5;
+      padding: 0 1em;
+    }
     .markdown-body img[alt*="badge"] {
       display: inline-block;
       margin: 5px;
+    }
+    .markdown-body table {
+      border-collapse: collapse;
+    }
+    .markdown-body table th,
+    .markdown-body table td {
+      border: 1px solid #dfe2e5;
+      padding: 6px 13px;
+    }
+    .markdown-body table th {
+      font-weight: 600;
+      background-color: #f6f8fa;
     }
     @media (max-width: 768px) {
       .container {

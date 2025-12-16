@@ -1,7 +1,7 @@
 # Playwright TypeScript - Configuração Completa 🎭
 
 [![Playwright Tests](https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml/badge.svg)](https://github.com/wesleyjesus/playwright-typescrip-basico/actions/workflows/playwright-allure.yml)
-[![Allure Report](https://img.shields.io/badge/Allure-Report-yellow.svg)](https://wesleyjesus.github.io/playwright-typescrip-basico/)
+[![Allure Report](https://img.shields.io/badge/Allure-Report-yellow.svg)](https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/)
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue.svg)](https://wesleyjesus.github.io/playwright-typescrip-basico/)
 
 Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwright, incluindo:
@@ -16,8 +16,9 @@ Este projeto fornece um ambiente completo de desenvolvimento e teste com Playwri
 
 ## 📊 Relatórios Allure Publicados
 
-🔗 **Acesse os relatórios de teste ao vivo:**  
-**[https://wesleyjesus.github.io/playwright-typescrip-basico/](https://wesleyjesus.github.io/playwright-typescrip-basico/)**
+🔗 **Página Inicial do Projeto**: [https://wesleyjesus.github.io/playwright-typescrip-basico/](https://wesleyjesus.github.io/playwright-typescrip-basico/)
+
+🔗 **Relatório Allure Direto**: [https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/](https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/)
 
 Os relatórios são automaticamente atualizados a cada push para `main`.
 

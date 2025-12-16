@@ -14,6 +14,7 @@ echo "📋 VERIFICAÇÃO DE CONFIGURAÇÃO:"
 echo ""
 echo "  ✅ Branch gh-pages: Criada"
 echo "  ✅ GitHub Pages configurado para: gh-pages branch"
+echo "  ✅ Estrutura: Página inicial + Relatório em /allure-report/"
 echo ""
 echo "  ⚠️  Verifique as permissões do GitHub Actions:"
 echo "     https://github.com/wesleyjesus/playwright-typescrip-basico/settings/actions"
@@ -57,13 +58,18 @@ fi
 
 # Commit
 echo "💾 Criando commit..."
-git commit -m "feat: setup Allure Reports with GitHub Pages
+git commit -m "feat: setup Allure Reports with GitHub Pages landing page
 
 - Configure GitHub Actions workflow for automated testing
-- Enable Allure report generation with history
+- Create landing page with project information
+- Enable Allure report generation with history in /allure-report/
 - Set up deployment to gh-pages branch
 - Add deployment scripts and documentation
 - Configure CI/CD pipeline with test artifacts
+
+Structure:
+- Root: Landing page (index.html)
+- /allure-report/: Allure test reports
 
 This commit enables automatic generation and publishing of
 Allure test reports to GitHub Pages on every push to main."
@@ -86,10 +92,12 @@ echo "  2. Aguarde 3-5 minutos para:"
 echo "     ⏱️  Instalação das dependências"
 echo "     🧪 Execução dos testes"
 echo "     📊 Geração do relatório Allure"
+echo "     🏗️  Criação da página inicial"
 echo "     🚀 Deploy para gh-pages"
 echo ""
-echo "  3. Após conclusão, acesse o relatório:"
-echo "     🎉 https://wesleyjesus.github.io/playwright-typescrip-basico/"
+echo "  3. Após conclusão, acesse:"
+echo "     🏠 Página Inicial: https://wesleyjesus.github.io/playwright-typescrip-basico/"
+echo "     📊 Relatório Allure: https://wesleyjesus.github.io/playwright-typescrip-basico/allure-report/"
 echo ""
 echo "  4. Se o workflow falhar, verifique:"
 echo "     ❌ Logs do workflow em Actions"

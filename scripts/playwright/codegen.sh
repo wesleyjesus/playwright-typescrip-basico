@@ -1,17 +1,20 @@
 #!/bin/bash
 
 # Script para abrir o Playwright Codegen
-# Uso: ./codegen.sh [URL] [opções]
+# Uso: bash scripts/playwright/codegen.sh [URL] [browser] [opções extras]
 
 URL=${1:-"https://example.com"}
 BROWSER=${2:-"chromium"}
 
+if [[ "$1" == "-h" || "$1" == "--help" || "$1" == "help" ]]; then
+  npx playwright codegen --help
+  exit 0
+fi
+
 echo "🎭 Iniciando Playwright Codegen..."
 echo "🌐 URL: $URL"
 echo "🌍 Browser: $BROWSER"
-echo ""
 
-# Executa o codegen com as opções fornecidas
 npx playwright codegen \
   --browser="$BROWSER" \
   --viewport-size=1280,720 \
@@ -19,5 +22,4 @@ npx playwright codegen \
   "$URL" \
   "${@:3}"
 
-echo ""
 echo "✅ Codegen finalizado!"

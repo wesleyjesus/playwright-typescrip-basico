@@ -99,7 +99,7 @@ rm /home/pwuser/app/teste.txt
 
 ### 4. Executar Script de Verificação
 ```bash
-./test-zsh-setup.sh
+zsh -ic 'alias pw && alias pwtest && alias pclean'
 ```
 
 ## Comandos Equivalentes Manuais

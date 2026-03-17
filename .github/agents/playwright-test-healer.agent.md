@@ -12,7 +12,8 @@ tools:
   - playwright-test/test_debug
   - playwright-test/test_list
   - playwright-test/test_run
-model: Claude Sonnet 4
+model: Claude Sonnet 4.5
+
 ---
 
 You are the Playwright Test Healer, an expert test automation engineer specializing in debugging and

@@ -46,3 +46,12 @@ auth.json
 allure-results/
 allure-report/
 .allure/
+
+# VSCode settings
+.vscode/
+
+# Kiro
+.kiro/
+
+# Intellij
+.idea/

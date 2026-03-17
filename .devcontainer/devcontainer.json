@@ -11,17 +11,11 @@
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	},
 
-	// Opcional: DOCKER_HOST aponta para o socket unix (por padrão já é isso)
-	"containerEnv": {
-		"DOCKER_HOST": "unix:///var/run/docker.sock"
-	},
-
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"ms-vscode-remote.remote-containers",
 				"ms-azuretools.vscode-docker", // Docker Extension
-				// Remova "ms-azuretools.vscode-containers"
 				"VisualStudioExptTeam.vscodeintellicode",
 				"vscjava.vscode-java-debug",
 				"ms-playwright.playwright",

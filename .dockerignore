@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+.git
+.gitignore
+dist
+build
+.out
+.next
+coverage
+tmp
+.cache
+*.log
+.DS_Store
+.vscode
+.idea

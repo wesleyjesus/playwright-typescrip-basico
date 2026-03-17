@@ -1,5 +1,5 @@
 # Use a imagem oficial do Playwright como base
-FROM mcr.microsoft.com/playwright:v1.56.0-noble
+FROM mcr.microsoft.com/playwright:v1.58.2-noble
 USER root
 # Ajuste de UID/GID para evitar problemas de permissão com bind mounts do host
 ARG USER_UID=1000
@@ -149,19 +149,27 @@ ENTRYPOINT ["/usr/local/bin/devcontainer-entrypoint.sh"]
 # pelo host. O entrypoint faz o drop para pwuser ao final.
 
 # Define o diretório de trabalho para a aplicação
-
 WORKDIR ${APP_DIR}
 
 # Ajusta o relógio do sistema
 RUN hwclock --hctosys || true
 
-# Copia arquivos de dependência primeiro. Não forçamos chown aqui porque o
-# entrypoint fará ajustes em tempo de execução para acomodar bind mounts do host.
-COPY package.json yarn.lock* ./
+# Copia arquivos de dependência primeiro para cache eficiente
+COPY --chown=${USER_UID}:${USER_GID} package.json yarn.lock* ./
 
-# Copia o restante do código. Mantemos owners como na imagem (root) e o
-# entrypoint cuidará do ajuste de ownership quando o container iniciar.
-COPY . .
+# Instala dependências como pwuser para evitar problemas de permissão
+USER pwuser
+RUN yarn install --frozen-lockfile || yarn install
+
+# Volta para root para copiar o restante e ajustar permissões
+USER root
+
+# Copia o restante do código do projeto
+COPY --chown=${USER_UID}:${USER_GID} . .
+
+# Garante que tudo em /home/pwuser/app pertença ao pwuser
+RUN chown -R ${USER_UID}:${USER_GID} ${APP_DIR} \
+ && chmod -R 755 ${APP_DIR}
 
 # Expõe a porta usada pelo run-server
 EXPOSE 3000

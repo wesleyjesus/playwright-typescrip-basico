@@ -14,8 +14,8 @@ export class DashboardPage {
 		})
 	}
 
-	menuButton(name: string) {
-		return this.page.getByRole('button', { name: `Menu ${name}` })
+	menuItem(name: string) {
+		return this.page.getByRole('menuitem', { name: `Menu ${name}` })
 	}
 
 	userButton(name: string) {
@@ -45,7 +45,7 @@ export class DashboardPage {
 			'Ajustes',
 			'Tabelas',
 		]) {
-			await expect(this.menuButton(item)).toBeVisible()
+			await expect(this.menuItem(item)).toBeVisible()
 		}
 	}
 }

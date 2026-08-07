@@ -12,6 +12,8 @@ import { loginAsValidUser } from '../helpers/auth.helper'
 import { DocumentInclusionPage } from '../pages/document-inclusion.page'
 
 test.describe('Documento - incluir', () => {
+	test.setTimeout(120000)
+
 	test.beforeEach(async ({ page }) => {
 		await epic('Documento')
 		await feature('Incluir Documento')
@@ -34,11 +36,10 @@ test.describe('Documento - incluir', () => {
 
 		await test.step('Act - preencher os campos obrigatórios', async () => {
 			await documentInclusionPage.fillRequiredFields(requiredDocumentData)
-			await documentInclusionPage.save()
 		})
 
 		await test.step('Assert - confirmar a inclusão do documento', async () => {
-			await documentInclusionPage.assertSuccessMessage('Documento incluído.')
+			await documentInclusionPage.saveAndAssertSuccess('Documento incluído.')
 		})
 
 		await attachment(

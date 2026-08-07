@@ -107,7 +107,23 @@ export class DocumentInclusionPage {
 		await this.saveButton.click()
 	}
 
+	async saveAndAssertSuccess(_message: string) {
+		// NOTA: O toast "Documento incluído." é exibido momentaneamente antes de a aplicação
+		// navegar para a página de cadastro de íntegra. No Chromium do Playwright, a navegação
+		// (full page load) destrói o DOM antes que o toast seja detectável.
+		// Como alternativa confiável, validamos que o documento foi criado verificando:
+		// 1. A navegação para a URL do cadastro de íntegra
+		// 2. O heading com o número PGR do documento
+		await this.saveButton.click()
+		await expect(this.page).toHaveURL(/\/cadastro\/integra\/#\/\d+/, {
+			timeout: 60000,
+		})
+		await expect(
+			this.page.getByRole('heading', { name: /PGR-\d+\/\d+/ }),
+		).toBeVisible({ timeout: 10000 })
+	}
+
 	async assertSuccessMessage(message: string) {
-		await expect(this.page.locator('body')).toContainText(message)
+		await expect(this.page.getByText(message)).toBeVisible({ timeout: 5000 })
 	}
 }

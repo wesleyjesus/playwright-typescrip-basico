@@ -1,5 +1,5 @@
 # Use a imagem oficial do Playwright como base
-FROM mcr.microsoft.com/playwright:v1.58.2-noble
+FROM mcr.microsoft.com/playwright:v1.62.0-noble
 USER root
 # Ajuste de UID/GID para evitar problemas de permissão com bind mounts do host
 ARG USER_UID=1000

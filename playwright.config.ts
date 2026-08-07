@@ -35,6 +35,7 @@ export default defineConfig({
 		ignoreHTTPSErrors: true,
 		video: 'retain-on-failure',
 		headless: true,
+		viewport: { width: 1920, height: 1080 },
 		launchOptions: {
 			args: [
 				'--disable-gpu',

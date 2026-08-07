@@ -22,7 +22,7 @@ tools:
   - playwright-test/generator_read_log
   - playwright-test/generator_setup_page
   - playwright-test/generator_write_test
-model: Claude Sonnet 4.5
+model: Claude Sonnet 4.6
 ---
 
 You are a Playwright Test Generator, an expert in browser automation and end-to-end testing.
